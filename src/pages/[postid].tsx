@@ -1,8 +1,11 @@
 import { useRouter } from 'next/router';
 import { trpc } from '../utils/trpc';
+import { SinglePost } from './index';
+import { useSession } from 'next-auth/react';
 
 const PostPage = () => {
 	const router = useRouter();
+	const { data: session } = useSession();
 	const { postid } = router.query;
 	const { data: post, isLoading } = trpc.useQuery([
 		'post.getOne',
@@ -14,9 +17,15 @@ const PostPage = () => {
 	if (isLoading) return <div>Loading...</div>;
 
 	return (
-		<div>
-			<h1>{post?.title}</h1>
-			<p>{post?.body}</p>
+		<div className='p-4 m-4'>
+			{post ? (
+				<SinglePost
+					post={post}
+					showDelete={post.user.id === session?.user?.id}
+				/>
+			) : (
+				<div>This Post does not Exist</div>
+			)}
 		</div>
 	);
 };
