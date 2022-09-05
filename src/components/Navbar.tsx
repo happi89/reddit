@@ -21,7 +21,7 @@ const Navbar = () => {
 							<button className='btn btn-ghost'>Create Post</button>
 						</Link>
 						<Image
-							src={session?.user?.image}
+							src={session?.user?.image ? session?.user?.image : ''}
 							alt='s'
 							width={36}
 							height={36}
