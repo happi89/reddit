@@ -1,12 +1,11 @@
+import { Votes } from './../components/Votes';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { trpc } from '../utils/trpc';
 import { Post } from '@prisma/client';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import upVote from '../../public/up-arrow.png';
-import downVote from '../../public/download.png';
+import PostedBy from '../components/PostedBy';
 
 const Home: NextPage = () => {
 	return (
@@ -31,35 +30,17 @@ interface PostWithUser extends Post {
 }
 
 const Posts = () => {
-	const { data: posts, isLoading } = trpc.useQuery(['post.getAll'], {
-		onSuccess: (posts) => console.log(posts),
-	});
+	const { data: posts, isLoading } = trpc.useQuery(['post.getAll']);
 
 	if (isLoading) return <div>Loading...</div>;
 
 	return (
 		<>
-			<div>
-				<Link href='/submit'>
-					<button className='btn btn-primary w-full mb-3'>Create Post</button>
-				</Link>
-			</div>
 			{posts?.map((p, i: number) => {
 				return <SinglePost key={i} post={p} showDelete={false} />;
 			})}
 		</>
 	);
-};
-
-const postedAt = (date: Date) => {
-	const then = date.getTime();
-	const now = new Date().getTime();
-	const past = now - then;
-	if (past < 60000) return 'posted now';
-	else if (past < 3600000) return `${Math.round(past / 60000)} minutes ago`;
-	else if (past < 86400000) return `${Math.round(past / 3600000)} hours ago`;
-	else if (past < 2629800000) return `${Math.round(past / 86400000)} days ago`;
-	else return new Date(past).toString();
 };
 
 export const SinglePost = ({
@@ -89,35 +70,32 @@ export const SinglePost = ({
 	return (
 		<Link href={`/${post.id}`}>
 			<div className='bg-base-200 border-[1px] border-gray rounded-md p-4 mb-3 cursor-pointer flex'>
-				<div className='mr-4'>
-					<button className='btn btn-square btn-ghost btn-sm'>
-						<Image src={upVote} alt='arrow up' height={25} width={25} />
-					</button>
-					{/* <div>{post.votes}</div> */}
-					<button className='btn btn-square btn-ghost btn-sm'>
-						<Image src={downVote} alt='arrow up' height={25} width={25} />
-					</button>
-				</div>
+				<Votes votes={post.votes} />
 				<div>
-					<p className='mb-2'>
-						<span>posted by {post.user.name}</span>
-						<span> {postedAt(post.createdAt)}</span>
-					</p>
+					<PostedBy
+						name={post.user.name ? post.user.name : ''}
+						date={post.createdAt}
+					/>
 					<h2 className='text-xl mb-2'>{post.title}</h2>
 					<p className=''>{post.body}</p>
-					{showDelete ? (
-						<button
-							className='btn btn-primary btn-sm mt-2'
-							type='button'
-							onClick={() => {
-								deletePost.mutate({
-									id: post.id,
-								});
-								router.push('/');
-							}}>
-							Delete
-						</button>
-					) : null}
+					<div className='flex gap-3 mt-3 items-center'>
+						{/* <p>{post.comments.length}</p> */}
+						<p>Save Post</p>
+						<p>Edit</p>
+						{showDelete ? (
+							<button
+								className='btn btn-primary btn-sm'
+								type='button'
+								onClick={() => {
+									deletePost.mutate({
+										id: post.id,
+									});
+									router.push('/');
+								}}>
+								Delete
+							</button>
+						) : null}
+					</div>
 				</div>
 			</div>
 		</Link>

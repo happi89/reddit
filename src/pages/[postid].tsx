@@ -2,6 +2,9 @@ import { useRouter } from 'next/router';
 import { trpc } from '../utils/trpc';
 import { SinglePost } from './index';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import CommentForm from '../components/CommentForm';
+import Comments from '../components/Comments';
 
 const PostPage = () => {
 	const router = useRouter();
@@ -19,10 +22,18 @@ const PostPage = () => {
 	return (
 		<div className='p-4 m-4'>
 			{post ? (
-				<SinglePost
-					post={post}
-					showDelete={post.user.id === session?.user?.id}
-				/>
+				<>
+					<Link href='/'>
+						<button className='btn btn-primary mb-6 ml-1'>Back</button>
+					</Link>
+
+					<SinglePost
+						post={post}
+						showDelete={post.user.id === session?.user?.id}
+					/>
+					<CommentForm postId={Number(postid)} />
+					<Comments postId={Number(postid)} />
+				</>
 			) : (
 				<div>This Post does not Exist</div>
 			)}

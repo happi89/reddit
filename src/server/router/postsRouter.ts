@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { createRouter } from './context';
 
-export const postRouter = createRouter()
+export const postsRouter = createRouter()
 	.query('getOne', {
 		input: z.object({
 			id: z.number(),
@@ -20,12 +20,15 @@ export const postRouter = createRouter()
 								id: true,
 							},
 						},
+						comments: true,
+						votes: true,
 						body: true,
 						createdAt: true,
 					},
 				});
 			} catch (err) {
 				console.log('error', err);
+				throw new TRPCError({ code: 'BAD_REQUEST' });
 			}
 		},
 	})
@@ -36,6 +39,7 @@ export const postRouter = createRouter()
 					select: {
 						id: true,
 						title: true,
+						votes: true,
 						user: {
 							select: {
 								name: true,
@@ -50,6 +54,7 @@ export const postRouter = createRouter()
 				});
 			} catch (err) {
 				console.log('error', err);
+				throw new TRPCError({ code: 'BAD_REQUEST' });
 			}
 		},
 	})
@@ -71,11 +76,13 @@ export const postRouter = createRouter()
 					data: {
 						title: input.title,
 						body: input.body,
-						userId: input.userId,
+						user: { connect: { id: input.userId } },
+						votes: 0,
 					},
 				});
 			} catch (err) {
 				console.log('error', err);
+				throw new TRPCError({ code: 'BAD_REQUEST' });
 			}
 		},
 	})
