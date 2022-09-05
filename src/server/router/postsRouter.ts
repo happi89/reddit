@@ -24,6 +24,9 @@ export const postsRouter = createRouter()
 						votes: true,
 						body: true,
 						createdAt: true,
+						_count: {
+							select: { comments: true },
+						},
 					},
 				});
 			} catch (err) {
@@ -47,6 +50,9 @@ export const postsRouter = createRouter()
 						},
 						body: true,
 						createdAt: true,
+						_count: {
+							select: { comments: true },
+						},
 					},
 					orderBy: {
 						createdAt: 'desc',

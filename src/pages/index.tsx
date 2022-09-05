@@ -27,6 +27,9 @@ interface PostWithUser extends Post {
 	user: {
 		name: string | null;
 	};
+	_count: {
+		comments: number;
+	};
 }
 
 const Posts = () => {
@@ -79,7 +82,7 @@ export const SinglePost = ({
 					<h2 className='text-xl mb-2'>{post.title}</h2>
 					<p className=''>{post.body}</p>
 					<div className='flex gap-3 mt-3 items-center'>
-						{/* <p>{post.comments.length}</p> */}
+						<p className='text-gray'>{post._count.comments} comments</p>
 						<p>Save Post</p>
 						<p>Edit</p>
 						{showDelete ? (

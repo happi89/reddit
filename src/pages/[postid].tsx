@@ -31,11 +31,13 @@ const PostPage = () => {
 						post={post}
 						showDelete={post.user.id === session?.user?.id}
 					/>
-					<CommentForm postId={Number(postid)} />
+					{session?.user?.id === post.user.id ? (
+						<CommentForm postId={Number(postid)} />
+					) : null}
 					<Comments postId={Number(postid)} />
 				</>
 			) : (
-				<div>This Post does not Exist</div>
+				<div>404 not found. This Post does not Exist</div>
 			)}
 		</div>
 	);

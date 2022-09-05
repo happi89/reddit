@@ -1,25 +1,17 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { trpc } from '../utils/trpc';
+import Toast from './Toast';
 
 export const PostForm = ({ id }: { id: string }) => {
 	const [title, setTitle] = useState('');
 	const [body, setBody] = useState('');
+	const [toast, setToast] = useState({ show: false, message: '', type: '' });
 	const router = useRouter();
 	const ctx = trpc.useContext();
 
 	const addPost = trpc.useMutation('post.addPost', {
-		onMutate: () => {
-			ctx.cancelQuery(['post.getAll']);
-
-			const optimisticUpdate = ctx.getQueryData(['post.getAll']);
-			if (optimisticUpdate) {
-				ctx.setQueryData(['post.getAll'], optimisticUpdate);
-			}
-		},
-		onSettled: () => {
-			ctx.invalidateQueries(['post.getAll']);
-		},
+		onSuccess: () => ctx.invalidateQueries(['post.getAll']),
 	});
 
 	return (
@@ -27,7 +19,6 @@ export const PostForm = ({ id }: { id: string }) => {
 			className='w-full mt-2'
 			onSubmit={(e) => {
 				e.preventDefault();
-
 				if (title.length > 3) {
 					addPost.mutate({
 						title,
@@ -37,6 +28,15 @@ export const PostForm = ({ id }: { id: string }) => {
 					router.push('/');
 					setTitle('');
 					setBody('');
+				} else {
+					setTimeout(() => {
+						setToast({ show: false, message: '', type: '' });
+					}, 3000);
+					setToast({
+						show: false,
+						message: 'post title and body has to be atleast 3 characters',
+						type: 'error',
+					});
 				}
 			}}>
 			<input
@@ -55,6 +55,7 @@ export const PostForm = ({ id }: { id: string }) => {
 			<button type='submit' className='btn btn-primary w-full mt-2 text-lg'>
 				Submit
 			</button>
+			{toast.type && <Toast info={toast} />}
 		</form>
 	);
 };
