@@ -4,7 +4,7 @@ import { SinglePost } from './index';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import CommentForm from '../components/CommentForm';
-import Comments from '../components/Comments';
+import CommentSection from '../components/Comments';
 
 const PostPage = () => {
 	const router = useRouter();
@@ -34,7 +34,7 @@ const PostPage = () => {
 					{session?.user?.id === post.user.id ? (
 						<CommentForm postId={Number(postid)} />
 					) : null}
-					<Comments postId={Number(postid)} />
+					<CommentSection postId={Number(postid)} />
 				</>
 			) : (
 				<div>404 not found. This Post does not Exist</div>
