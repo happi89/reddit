@@ -8,6 +8,7 @@ import superjson from 'superjson';
 import type { AppRouter } from '../server/router';
 import '../styles/globals.css';
 import Navbar from '../components/Navbar';
+import Head from 'next/head';
 
 const MyApp: AppType = ({
 	Component,
@@ -15,6 +16,9 @@ const MyApp: AppType = ({
 }) => {
 	return (
 		<SessionProvider session={session}>
+			<Head>
+				<title>Reddit Clone</title>
+			</Head>
 			<Navbar />
 			<Component {...pageProps} />
 		</SessionProvider>

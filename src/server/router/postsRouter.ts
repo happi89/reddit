@@ -122,4 +122,36 @@ export const postsRouter = createRouter()
 				throw new TRPCError({ code: 'BAD_REQUEST' });
 			}
 		},
+	})
+	.mutation('upvote', {
+		input: z.object({
+			postId: z.number(),
+			votes: z.number(),
+		}),
+		async resolve({ ctx, input }) {
+			return await ctx.prisma.post.update({
+				where: {
+					id: input.postId,
+				},
+				data: {
+					votes: input.votes,
+				},
+			});
+		},
+	})
+	.mutation('downvote', {
+		input: z.object({
+			postId: z.number(),
+			votes: z.number(),
+		}),
+		async resolve({ ctx, input }) {
+			return await ctx.prisma.post.update({
+				where: {
+					id: input.postId,
+				},
+				data: {
+					votes: input.votes,
+				},
+			});
+		},
 	});
