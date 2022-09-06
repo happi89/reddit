@@ -5,11 +5,11 @@ import Toast from './Toast';
 const CommentForm = ({
 	postId,
 	parentId,
-	setReplying,
+	toggleForm,
 }: {
 	postId: number;
 	parentId?: number;
-	replying?: () => void;
+	toggleForm?: () => void;
 }) => {
 	const [comment, setComment] = useState('');
 	const [toast, setToast] = useState({ show: false, message: '', type: '' });
@@ -25,13 +25,13 @@ const CommentForm = ({
 				className='flex items-center'
 				onSubmit={(event) => {
 					event.preventDefault();
-					if (comment.length > 2) {
+					if (comment.length > 1) {
 						addComment.mutate({
 							body: comment,
 							postId,
 							parentId,
 						});
-						setReplying(false);
+						toggleForm && toggleForm();
 						setComment('');
 					} else {
 						setTimeout(() => {
@@ -39,7 +39,7 @@ const CommentForm = ({
 						}, 3000);
 						setToast({
 							show: false,
-							message: 'Comment has to be atleast 3 characters',
+							message: 'Comment has to be atleast 2 characters',
 							type: 'error',
 						});
 					}

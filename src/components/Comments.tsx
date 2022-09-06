@@ -14,17 +14,25 @@ const Reply = ({
 }) => {
 	const [replying, setReplying] = useState(false);
 
+	const toggleForm = () => {
+		setReplying(!replying);
+	};
+
 	return (
 		<div className='mt-3'>
 			<div className='flex justify-between items-center'>
 				<p>{replies} replies</p>
-				<button
-					className='btn btn-primary btn-sm'
-					onClick={() => setReplying(!replying)}>
+				<button className='btn btn-primary btn-sm' onClick={toggleForm}>
 					{replying ? 'Cancel' : 'Reply'}
 				</button>
 			</div>
-			{replying && <CommentForm postId={postId} parentId={parentId} />}
+			{replying && (
+				<CommentForm
+					postId={postId}
+					parentId={parentId}
+					toggleForm={toggleForm}
+				/>
+			)}
 		</div>
 	);
 };
