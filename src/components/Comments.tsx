@@ -4,17 +4,23 @@ import { useState } from 'react';
 import CommentForm from './CommentForm';
 import EditComment from './EditComment';
 import { useSession } from 'next-auth/react';
+import { Votes } from './Votes';
+import { Comment as CommentT } from '@prisma/client';
+
+interface CommentType extends CommentT {
+	user: {
+		id: string;
+	};
+}
 
 const Reply = ({
 	postId,
-	parentId,
 	replies,
-	userId,
+	comment,
 }: {
 	postId: number;
-	parentId: number;
 	replies: number;
-	userId: string;
+	comment: CommentType;
 }) => {
 	const [replying, setReplying] = useState(false);
 	const [editing, setEditing] = useState(false);
@@ -34,7 +40,7 @@ const Reply = ({
 			<div className='flex justify-between items-center'>
 				<p>{replies} replies</p>
 				<div>
-					{session?.user?.id === userId && (
+					{session?.user?.id === comment?.user?.id && (
 						<button
 							className='btn btn-primary btn-sm mr-3'
 							onClick={toggleEdit}>
@@ -48,11 +54,13 @@ const Reply = ({
 					)}
 				</div>
 			</div>
-			{editing && <EditComment commentId={parentId} toggleEdit={toggleEdit} />}
+			{editing && (
+				<EditComment commentId={comment.id} toggleEdit={toggleEdit} />
+			)}
 			{replying && (
 				<CommentForm
 					postId={postId}
-					parentId={parentId}
+					parentId={comment.id}
 					toggleForm={toggleForm}
 				/>
 			)}
@@ -69,25 +77,26 @@ const Comments = ({ postId }: { postId: number }) => {
 	if (isLoading) return <div>Loading...</div>;
 
 	return (
-		<div>
+		<div className='mt-4'>
 			{comments?.map((comment) => {
 				return (
 					<div
 						// eslint-disable-next-line react/no-unknown-property
 						key={comment.id}
-						className='mt-4 bg-base-200 border border-gray rounded-md p-4'>
-						<PostedBy
-							name={comment.user.name ? comment.user.name : ''}
-							date={comment.createdAt}
-						/>
-
-						<p className='text-lg'>{comment.body}</p>
-						<Reply
-							postId={postId}
-							parentId={comment.id}
-							userId={comment.user?.id}
-							replies={0}
-						/>
+						className='bg-base-200 border-[1px] border-gray rounded-md p-4 mb-3 flex'>
+						<Votes votes={comment?.votes} commentId={comment.id} />
+						<div className='w-full flex flex-col items-between'>
+							<PostedBy
+								name={comment.user.name ? comment.user.name : ''}
+								date={comment.createdAt}
+							/>
+							<p className='text-lg'>{comment.body}</p>
+							<Reply
+								postId={postId}
+								comment={comment}
+								replies={comment.children.length}
+							/>
+						</div>
 					</div>
 				);
 			})}

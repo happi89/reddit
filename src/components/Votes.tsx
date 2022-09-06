@@ -3,19 +3,37 @@ import upVoteImage from '../../public/up-arrow.png';
 import downVoteImage from '../../public/download.png';
 import { trpc } from '../utils/trpc';
 
-export function Votes({ votes, postId }: { votes: number; postId: number }) {
+export function Votes({
+	votes,
+	postId,
+	commentId,
+}: {
+	votes: number;
+	postId?: number;
+	commentId?: number;
+}) {
 	const ctx = trpc.useContext();
-	const upVote = trpc.useMutation('post.upvote', {
+	const upVotePost = trpc.useMutation('post.upvote', {
 		onSuccess: () => {
 			ctx.invalidateQueries(['post.getOne']);
 			ctx.invalidateQueries(['post.getAll']);
 		},
 	});
-
-	const downVote = trpc.useMutation('post.downvote', {
+	const downVotePost = trpc.useMutation('post.downvote', {
 		onSuccess: () => {
 			ctx.invalidateQueries(['post.getOne']);
 			ctx.invalidateQueries(['post.getAll']);
+		},
+	});
+	const upVoteComment = trpc.useMutation('comment.upvote', {
+		onSuccess: () => {
+			ctx.invalidateQueries(['comment.getAll']);
+		},
+	});
+
+	const downVoteComment = trpc.useMutation('comment.downvote', {
+		onSuccess: () => {
+			ctx.invalidateQueries(['comment.getAll']);
 		},
 	});
 
@@ -24,12 +42,17 @@ export function Votes({ votes, postId }: { votes: number; postId: number }) {
 			<button
 				className='btn btn-square btn-ghost btn-sm'
 				onClick={() => {
-					upVote.mutate({
-						postId,
-						votes: votes + 1,
-					});
-					console.log(votes, 'votes');
-					console.log(postId, 'postId');
+					postId
+						? upVotePost.mutate({
+								postId,
+								votes: votes + 1,
+						  })
+						: commentId
+						? upVoteComment.mutate({
+								commentId,
+								votes: votes + 1,
+						  })
+						: null;
 				}}>
 				<Image src={upVoteImage} alt='arrow up' height={25} width={25} />
 			</button>
@@ -37,12 +60,17 @@ export function Votes({ votes, postId }: { votes: number; postId: number }) {
 			<button
 				className='btn btn-square btn-ghost btn-sm'
 				onClick={() => {
-					downVote.mutate({
-						postId,
-						votes: votes - 1,
-					});
-					console.log(votes, 'votes');
-					console.log(postId, 'postId');
+					postId
+						? downVotePost.mutate({
+								postId,
+								votes: votes - 1,
+						  })
+						: commentId
+						? downVoteComment.mutate({
+								commentId,
+								votes: votes - 1,
+						  })
+						: null;
 				}}>
 				<Image src={downVoteImage} alt='arrow up' height={25} width={25} />
 			</button>

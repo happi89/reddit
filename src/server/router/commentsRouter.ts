@@ -88,4 +88,36 @@ export const commentsRouter = createRouter()
 				},
 			});
 		},
+	})
+	.mutation('upvote', {
+		input: z.object({
+			commentId: z.number(),
+			votes: z.number(),
+		}),
+		async resolve({ ctx, input }) {
+			return await ctx.prisma.comment.update({
+				where: {
+					id: input.commentId,
+				},
+				data: {
+					votes: input.votes,
+				},
+			});
+		},
+	})
+	.mutation('downvote', {
+		input: z.object({
+			commentId: z.number(),
+			votes: z.number(),
+		}),
+		async resolve({ ctx, input }) {
+			return await ctx.prisma.comment.update({
+				where: {
+					id: input.commentId,
+				},
+				data: {
+					votes: input.votes,
+				},
+			});
+		},
 	});
