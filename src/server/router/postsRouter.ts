@@ -11,9 +11,7 @@ export const postsRouter = createRouter()
 			try {
 				return await ctx.prisma.post.findUnique({
 					where: { id: input?.id },
-					select: {
-						id: true,
-						title: true,
+					include: {
 						user: {
 							select: {
 								name: true,
@@ -21,9 +19,6 @@ export const postsRouter = createRouter()
 							},
 						},
 						comments: true,
-						votes: true,
-						body: true,
-						createdAt: true,
 						_count: {
 							select: { comments: true },
 						},
@@ -102,5 +97,28 @@ export const postsRouter = createRouter()
 					id: input.id,
 				},
 			});
+		},
+	})
+	.mutation('editPost', {
+		input: z.object({
+			title: z.string(),
+			body: z.string(),
+			postId: z.number(),
+		}),
+		async resolve({ ctx, input }) {
+			try {
+				await ctx.prisma.post.update({
+					where: {
+						id: input.postId,
+					},
+					data: {
+						title: input.title,
+						body: input.body,
+					},
+				});
+			} catch (err) {
+				console.log('error', err);
+				throw new TRPCError({ code: 'BAD_REQUEST' });
+			}
 		},
 	});

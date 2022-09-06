@@ -40,7 +40,7 @@ const Posts = () => {
 	return (
 		<>
 			{posts?.map((p, i: number) => {
-				return <SinglePost key={i} post={p} showDelete={false} />;
+				return <SinglePost key={i} post={p} showDelete={true} />;
 			})}
 		</>
 	);
@@ -71,21 +71,29 @@ export const SinglePost = ({
 	});
 
 	return (
-		<Link href={`/${post.id}`}>
-			<div className='bg-base-200 border-[1px] border-gray rounded-md p-4 mb-3 cursor-pointer flex'>
-				<Votes votes={post.votes} />
-				<div>
-					<PostedBy
-						name={post.user.name ? post.user.name : ''}
-						date={post.createdAt}
-					/>
-					<h2 className='text-xl mb-2'>{post.title}</h2>
-					<p className=''>{post.body}</p>
-					<div className='flex gap-3 mt-3 items-center'>
-						<p className='text-gray'>{post._count.comments} comments</p>
-						<p>Save Post</p>
-						<p>Edit</p>
-						{showDelete ? (
+		<div className='bg-base-200 border-[1px] border-gray rounded-md p-4 mb-3 flex'>
+			<Votes votes={post.votes} />
+			<div>
+				<Link href={`/${post.id}`}>
+					<div className='cursor-pointer'>
+						<PostedBy
+							name={post.user.name ? post.user.name : ''}
+							date={post.createdAt}
+						/>
+						<h2 className='text-xl mb-2'>{post.title}</h2>
+						<p className=''>{post.body}</p>
+					</div>
+				</Link>
+				<div className='flex gap-3 mt-3 items-center'>
+					<p className='text-gray'>{post._count.comments} comments</p>
+					<p>Save Post</p>
+					{showDelete ? (
+						<>
+							<button
+								className='btn btn-ghost btn-sm'
+								onClick={() => router.push(`/edit/${post.id}`)}>
+								Edit
+							</button>
 							<button
 								className='btn btn-primary btn-sm'
 								type='button'
@@ -97,11 +105,11 @@ export const SinglePost = ({
 								}}>
 								Delete
 							</button>
-						) : null}
-					</div>
+						</>
+					) : null}
 				</div>
 			</div>
-		</Link>
+		</div>
 	);
 };
 

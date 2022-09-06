@@ -1,26 +1,27 @@
+import { Post } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { trpc } from '../utils/trpc';
 import Toast from './Toast';
 
-export const PostForm = ({ id }: { id: string }) => {
-	const [title, setTitle] = useState('');
-	const [body, setBody] = useState('');
+const EditPost = ({ post }: { post: Post }) => {
+	const [title, setTitle] = useState(post.title);
+	const [body, setBody] = useState(post.body);
 	const [toast, setToast] = useState({ show: false, message: '', type: '' });
 	const router = useRouter();
 	const ctx = trpc.useContext();
 
-	const addPost = trpc.useMutation('post.addPost', {
+	const editPost = trpc.useMutation('post.editPost', {
 		onSuccess: () => ctx.invalidateQueries(['post.getAll']),
 	});
 
 	const onSubmit = (e: { preventDefault: () => void }) => {
 		e.preventDefault();
 		if (title.length > 1) {
-			addPost.mutate({
+			editPost.mutate({
 				title,
 				body,
-				userId: id,
+				postId: post.id,
 			});
 			router.push('/');
 			setTitle('');
@@ -59,3 +60,5 @@ export const PostForm = ({ id }: { id: string }) => {
 		</form>
 	);
 };
+
+export default EditPost;
