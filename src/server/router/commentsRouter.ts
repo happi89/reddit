@@ -19,12 +19,10 @@ export const commentsRouter = createRouter()
 						user: {
 							select: {
 								name: true,
+								id: true,
 							},
 						},
 						children: true,
-					},
-					orderBy: {
-						createdAt: 'desc',
 					},
 				});
 			} catch (err) {
@@ -61,5 +59,33 @@ export const commentsRouter = createRouter()
 				console.log('Error', err);
 				throw new TRPCError({ code: 'BAD_REQUEST' });
 			}
+		},
+	})
+	.mutation('editComment', {
+		input: z.object({
+			body: z.string(),
+			commentId: z.number(),
+		}),
+		async resolve({ ctx, input }) {
+			return await ctx.prisma.comment.update({
+				where: {
+					id: input.commentId,
+				},
+				data: {
+					body: input.body,
+				},
+			});
+		},
+	})
+	.mutation('deleteComment', {
+		input: z.object({
+			id: z.number(),
+		}),
+		async resolve({ ctx, input }) {
+			return await ctx.prisma.comment.delete({
+				where: {
+					id: input.id,
+				},
+			});
 		},
 	});

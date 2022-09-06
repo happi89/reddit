@@ -6,6 +6,7 @@ import { trpc } from '../utils/trpc';
 import { Post } from '@prisma/client';
 import { useRouter } from 'next/router';
 import PostedBy from '../components/PostedBy';
+import { useSession } from 'next-auth/react';
 
 const Home: NextPage = () => {
 	return (
@@ -34,13 +35,20 @@ interface PostWithUser extends Post {
 
 const Posts = () => {
 	const { data: posts, isLoading } = trpc.useQuery(['post.getAll']);
+	const { data: session } = useSession();
 
 	if (isLoading) return <div>Loading...</div>;
 
 	return (
 		<>
 			{posts?.map((p, i: number) => {
-				return <SinglePost key={i} post={p} showDelete={true} />;
+				return (
+					<SinglePost
+						key={i}
+						post={p}
+						showDelete={p.user?.id === session?.user?.id}
+					/>
+				);
 			})}
 		</>
 	);
@@ -84,13 +92,12 @@ export const SinglePost = ({
 						<p className=''>{post.body}</p>
 					</div>
 				</Link>
-				<div className='flex gap-3 mt-3 items-center'>
+				<div className='flex gap-4 mt-3 items-center min-w-full'>
 					<p className='text-gray'>{post._count.comments} comments</p>
-					<p>Save Post</p>
 					{showDelete ? (
-						<>
+						<div>
 							<button
-								className='btn btn-ghost btn-sm'
+								className='btn btn-ghost btn-sm mr-3'
 								onClick={() => router.push(`/edit/${post.id}`)}>
 								Edit
 							</button>
@@ -98,14 +105,16 @@ export const SinglePost = ({
 								className='btn btn-primary btn-sm'
 								type='button'
 								onClick={() => {
-									deletePost.mutate({
-										id: post.id,
-									});
-									router.push('/');
+									if (window.confirm(`Do you want to delete ${post.title}`)) {
+										deletePost.mutate({
+											id: post.id,
+										});
+										router.push('/');
+									}
 								}}>
 								Delete
 							</button>
-						</>
+						</div>
 					) : null}
 				</div>
 			</div>
