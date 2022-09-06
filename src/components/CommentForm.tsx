@@ -5,9 +5,11 @@ import Toast from './Toast';
 const CommentForm = ({
 	postId,
 	parentId,
+	setReplying,
 }: {
 	postId: number;
 	parentId?: number;
+	replying?: () => void;
 }) => {
 	const [comment, setComment] = useState('');
 	const [toast, setToast] = useState({ show: false, message: '', type: '' });
@@ -29,6 +31,7 @@ const CommentForm = ({
 							postId,
 							parentId,
 						});
+						setReplying(false);
 						setComment('');
 					} else {
 						setTimeout(() => {
