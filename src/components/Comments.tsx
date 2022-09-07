@@ -38,7 +38,7 @@ const Reply = ({
 	};
 
 	return (
-		<div className='mt-3'>
+		<div className='mt-6'>
 			<div className='flex justify-between items-center'>
 				<p>{replies} replies</p>
 				<div>
@@ -90,9 +90,9 @@ const Comments = ({ postId }: { postId: number }) => {
 					<div
 						// eslint-disable-next-line react/no-unknown-property
 						key={comment.id}
-						className='bg-base-200 border-[1px] border-gray rounded-md p-4 mb-3 flex'>
+						className='bg-base-200 border-[1px] border-gray rounded-md mb-4 flex'>
 						<Votes votes={comment?.votes} commentId={comment.id} />
-						<div className='w-full flex flex-col items-between'>
+						<div className='w-full flex flex-col items-between p-4'>
 							<PostedBy
 								name={comment.user.name ? comment.user.name : ''}
 								date={comment.createdAt}

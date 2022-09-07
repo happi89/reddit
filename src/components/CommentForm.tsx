@@ -20,7 +20,7 @@ const CommentForm = ({
 	});
 
 	return (
-		<div className='mt-4'>
+		<div className='mb-8'>
 			<form
 				className='flex items-center'
 				onSubmit={(event) => {

@@ -93,9 +93,9 @@ export const SinglePost = ({
 	});
 
 	return (
-		<div className='bg-base-200 border-[1px] border-gray rounded-md p-4 mb-3 flex'>
+		<div className='bg-base-200 border-[1px] border-gray rounded-md mb-6 flex'>
 			<Votes votes={post.votes} postId={post.id} />
-			<div>
+			<div className='p-4 w-full'>
 				<Link href={`/${post.id}`}>
 					<div className='cursor-pointer'>
 						<PostedBy
@@ -106,7 +106,7 @@ export const SinglePost = ({
 						<p className=''>{post.body}</p>
 					</div>
 				</Link>
-				<div className='flex gap-4 mt-3 items-center min-w-full'>
+				<div className='w-full flex gap-4 mt-3 items-center min-w-full justify-between'>
 					<p className='text-gray'>{post._count.comments} comments</p>
 					{showDelete ? (
 						<div>
