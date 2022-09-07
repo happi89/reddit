@@ -6,6 +6,8 @@ import EditComment from './EditComment';
 import { useSession } from 'next-auth/react';
 import { Votes } from './Votes';
 import { Comment as CommentT } from '@prisma/client';
+import Image from 'next/image';
+import Loader from '../../public/Reload-1s-200px.svg';
 
 interface CommentType extends CommentT {
 	user: {
@@ -74,7 +76,12 @@ const Comments = ({ postId }: { postId: number }) => {
 		{ postId },
 	]);
 
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading)
+		return (
+			<div className='flex justify-center'>
+				<Image src={Loader} alt='loader' width={70} height={70} />
+			</div>
+		);
 
 	return (
 		<div className='mt-4'>

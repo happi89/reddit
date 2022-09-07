@@ -5,6 +5,8 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import CommentForm from '../components/CommentForm';
 import Comments from '../components/Comments';
+import Image from 'next/image';
+import Loader from '../../public/Reload-1s-200px.svg';
 
 const PostPage = () => {
 	const router = useRouter();
@@ -17,7 +19,12 @@ const PostPage = () => {
 		},
 	]);
 
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading)
+		return (
+			<div className='min-w-screen min-h-screen flex justify-center'>
+				<Image src={Loader} alt='loader' width={70} height={70} />
+			</div>
+		);
 
 	return (
 		<div className='p-4 m-4'>
