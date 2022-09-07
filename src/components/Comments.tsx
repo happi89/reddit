@@ -85,6 +85,7 @@ const Comments = ({ postId }: { postId: number }) => {
 
 	return (
 		<div className='mt-4'>
+			<h2 className='text-2xl my-3'>Comments</h2>
 			{comments?.map((comment) => {
 				return (
 					<div

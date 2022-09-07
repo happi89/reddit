@@ -41,6 +41,7 @@ const PostPage = () => {
 					{session?.user?.id === post.user.id ? (
 						<CommentForm postId={Number(postid)} />
 					) : null}
+
 					<Comments postId={Number(postid)} />
 				</>
 			) : (
