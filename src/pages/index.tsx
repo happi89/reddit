@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 import PostedBy from '../components/PostedBy';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import Image from 'next/image';
+import Loader from '../../public/Reload-1s-200px.svg';
 
 const Home: NextPage = () => {
 	return (
@@ -43,7 +45,12 @@ const Posts = () => {
 
 	const { data: session } = useSession();
 
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading)
+		return (
+			<div className='min-w-screen min-h-screen flex justify-center'>
+				<Image src={Loader} alt='loader' width={70} height={70} />
+			</div>
+		);
 
 	return (
 		<div className='max-w-[72rem]'>
