@@ -17,6 +17,8 @@ model Post {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments  Comment[]
   votes     Int       @default(0) 
+  // postUpvotedFrom   User[]    @relation(name: "upvotedPosts")
+  // postDownvotedFrom User[]    @relation(name: "downvotedPosts")
 }
 
 model Comment {
@@ -32,6 +34,8 @@ model Comment {
   post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   children  Comment[] @relation("ParentChild")
+  // commentUpvotedFrom   User[]   @relation(name: "upvotedComments")
+  // commentDownvotedFrom User[]   @relation(name: "downvotedComments")
 }
 
 model Account {
@@ -70,6 +74,10 @@ model User {
   comments      Comment[]
   posts         Post[]
   sessions      Session[]
+  upvotedPosts      Post[]    @relation(name: "upvotedPosts")
+  downvotedPosts    Post[]    @relation(name: "downvotedPosts")
+  // upvotedComments   Comment[] @relation(name: "upvotedComments")
+  // downvotedComments Comment[] @relation(name: "downvotedComments")
 }
 
 model VerificationToken {

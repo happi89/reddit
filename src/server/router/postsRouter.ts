@@ -34,18 +34,13 @@ export const postsRouter = createRouter()
 		async resolve({ ctx }) {
 			try {
 				return await ctx.prisma.post.findMany({
-					select: {
-						id: true,
-						title: true,
-						votes: true,
+					include: {
 						user: {
 							select: {
 								name: true,
 								id: true,
 							},
 						},
-						body: true,
-						createdAt: true,
 						_count: {
 							select: { comments: true },
 						},

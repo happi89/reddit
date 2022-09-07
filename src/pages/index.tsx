@@ -1,3 +1,4 @@
+import FilterPosts from './../components/FilterPosts';
 import { Votes } from './../components/Votes';
 import type { NextPage } from 'next';
 import Link from 'next/link';
@@ -6,6 +7,7 @@ import { Post } from '@prisma/client';
 import { useRouter } from 'next/router';
 import PostedBy from '../components/PostedBy';
 import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 
 const Home: NextPage = () => {
 	return (
@@ -27,13 +29,25 @@ interface PostWithUser extends Post {
 }
 
 const Posts = () => {
-	const { data: posts, isLoading } = trpc.useQuery(['post.getAll']);
+	const [filter, setFilter] = useState('newest');
+	const { data: posts, isLoading } =
+		filter === 'newest'
+			? trpc.useQuery(['post.getAll'])
+			: filter === 'oldest'
+			? trpc.useQuery(['filterPosts.getOldest'])
+			: filter === 'most likes'
+			? trpc.useQuery(['filterPosts.mostLiked'])
+			: filter === 'least likes'
+			? trpc.useQuery(['filterPosts.leastLiked'])
+			: trpc.useQuery(['filterPosts.mostComments']);
+
 	const { data: session } = useSession();
 
 	if (isLoading) return <div>Loading...</div>;
 
 	return (
-		<>
+		<div className='max-w-[72rem]'>
+			<FilterPosts setFilter={setFilter} />
 			{posts?.map((p, i: number) => {
 				return (
 					<SinglePost
@@ -43,7 +57,7 @@ const Posts = () => {
 					/>
 				);
 			})}
-		</>
+		</div>
 	);
 };
 
