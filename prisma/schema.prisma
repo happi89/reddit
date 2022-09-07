@@ -74,8 +74,8 @@ model User {
   comments      Comment[]
   posts         Post[]
   sessions      Session[]
-  upvotedPosts      Post[]    @relation(name: "upvotedPosts")
-  downvotedPosts    Post[]    @relation(name: "downvotedPosts")
+  // upvotedPosts      Post[]    @relation(name: "upvotedPosts")
+  // downvotedPosts    Post[]    @relation(name: "downvotedPosts")
   // upvotedComments   Comment[] @relation(name: "upvotedComments")
   // downvotedComments Comment[] @relation(name: "downvotedComments")
 }
