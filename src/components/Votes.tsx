@@ -7,33 +7,25 @@ export function Votes({
 	votes,
 	postId,
 	commentId,
+	voted,
 }: {
 	votes: number;
 	postId?: number;
 	commentId?: number;
+	voted: boolean;
 }) {
 	const ctx = trpc.useContext();
-	const upVotePost = trpc.useMutation('post.upvote', {
+	const voteComment = trpc.useMutation('vote.commentVote', {
 		onSuccess: () => {
 			ctx.invalidateQueries(['post.getOne']);
 			ctx.invalidateQueries(['post.getAll']);
-		},
-	});
-	const downVotePost = trpc.useMutation('post.downvote', {
-		onSuccess: () => {
-			ctx.invalidateQueries(['post.getOne']);
-			ctx.invalidateQueries(['post.getAll']);
-		},
-	});
-	const upVoteComment = trpc.useMutation('comment.upvote', {
-		onSuccess: () => {
-			ctx.invalidateQueries(['comment.getAll']);
 		},
 	});
 
-	const downVoteComment = trpc.useMutation('comment.downvote', {
+	const votePost = trpc.useMutation('vote.postVote', {
 		onSuccess: () => {
-			ctx.invalidateQueries(['comment.getAll']);
+			ctx.invalidateQueries(['post.getOne']);
+			ctx.invalidateQueries(['post.getAll']);
 		},
 	});
 
@@ -43,14 +35,24 @@ export function Votes({
 				className='btn btn-square btn-ghost btn-sm'
 				onClick={() => {
 					postId
-						? upVotePost.mutate({
+						? votePost.mutate({
 								postId,
-								votes: votes + 1,
+								value: 1,
 						  })
 						: commentId
-						? upVoteComment.mutate({
+						? voteComment.mutate({
 								commentId,
-								votes: votes + 1,
+								value: 1,
+						  })
+						: voted && commentId
+						? voteComment.mutate({
+								commentId,
+								value: 0,
+						  })
+						: voted && postId
+						? votePost.mutate({
+								postId,
+								value: 0,
 						  })
 						: null;
 				}}>
@@ -61,14 +63,25 @@ export function Votes({
 				className='btn btn-square btn-ghost btn-sm'
 				onClick={() => {
 					postId
-						? downVotePost.mutate({
+						? votePost.mutate({
 								postId,
-								votes: votes - 1,
+								value: -1,
 						  })
 						: commentId
-						? downVoteComment.mutate({
+						? voteComment.mutate({
 								commentId,
-								votes: votes - 1,
+								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+								value: -1,
+						  })
+						: voted && commentId
+						? voteComment.mutate({
+								commentId,
+								value: 0,
+						  })
+						: voted && postId
+						? votePost.mutate({
+								postId,
+								value: 0,
 						  })
 						: null;
 				}}>

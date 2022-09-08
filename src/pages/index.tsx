@@ -3,7 +3,7 @@ import { Votes } from './../components/Votes';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { trpc } from '../utils/trpc';
-import { Post } from '@prisma/client';
+import { Post, Vote } from '@prisma/client';
 import { useRouter } from 'next/router';
 import PostedBy from '../components/PostedBy';
 import { useSession } from 'next-auth/react';
@@ -24,10 +24,12 @@ const Home: NextPage = () => {
 interface PostWithUser extends Post {
 	user: {
 		name: string | null;
+		id: string;
 	};
 	_count: {
 		comments: number;
 	};
+	votes: [Vote];
 }
 
 const Posts = () => {
@@ -56,11 +58,13 @@ const Posts = () => {
 		<div className='max-w-[72rem]'>
 			<FilterPosts setFilter={setFilter} />
 			{posts?.map((p, i: number) => {
+				const voted = posts?.find((vote) => vote.userId === session?.user?.id);
 				return (
 					<SinglePost
 						key={i}
 						post={p}
 						showDelete={p.user?.id === session?.user?.id}
+						voted={voted ? true : false}
 					/>
 				);
 			})}
@@ -71,9 +75,11 @@ const Posts = () => {
 export const SinglePost = ({
 	post,
 	showDelete,
+	voted,
 }: {
 	post: Omit<PostWithUser, 'updatedAt' | 'userId'>;
 	showDelete: boolean;
+	voted: boolean;
 }) => {
 	const router = useRouter();
 	const ctx = trpc.useContext();
@@ -94,7 +100,7 @@ export const SinglePost = ({
 
 	return (
 		<div className='bg-base-200 border-[1px] border-gray rounded-md mb-6 flex'>
-			<Votes votes={post.votes} postId={post.id} />
+			<Votes votes={post.votes[0]?.value || 0} postId={post.id} voted={voted} />
 			<div className='p-4 w-full'>
 				<Link href={`/${post.id}`}>
 					<div className='cursor-pointer'>

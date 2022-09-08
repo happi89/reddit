@@ -18,6 +18,7 @@ export const postsRouter = createRouter()
 								id: true,
 							},
 						},
+						votes: true,
 						comments: true,
 						_count: {
 							select: { comments: true },
@@ -41,6 +42,7 @@ export const postsRouter = createRouter()
 								id: true,
 							},
 						},
+						votes: true,
 						_count: {
 							select: { comments: true },
 						},
@@ -74,7 +76,6 @@ export const postsRouter = createRouter()
 						title: input.title,
 						body: input.body,
 						user: { connect: { id: input.userId } },
-						votes: 0,
 					},
 				});
 			} catch (err) {
@@ -116,37 +117,5 @@ export const postsRouter = createRouter()
 				console.log('error', err);
 				throw new TRPCError({ code: 'BAD_REQUEST' });
 			}
-		},
-	})
-	.mutation('upvote', {
-		input: z.object({
-			postId: z.number(),
-			votes: z.number(),
-		}),
-		async resolve({ ctx, input }) {
-			return await ctx.prisma.post.update({
-				where: {
-					id: input.postId,
-				},
-				data: {
-					votes: input.votes,
-				},
-			});
-		},
-	})
-	.mutation('downvote', {
-		input: z.object({
-			postId: z.number(),
-			votes: z.number(),
-		}),
-		async resolve({ ctx, input }) {
-			return await ctx.prisma.post.update({
-				where: {
-					id: input.postId,
-				},
-				data: {
-					votes: input.votes,
-				},
-			});
 		},
 	});

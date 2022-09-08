@@ -23,6 +23,7 @@ export const commentsRouter = createRouter()
 							},
 						},
 						children: true,
+						votes: true,
 					},
 				});
 			} catch (err) {
@@ -85,38 +86,6 @@ export const commentsRouter = createRouter()
 			return await ctx.prisma.comment.delete({
 				where: {
 					id: input.id,
-				},
-			});
-		},
-	})
-	.mutation('upvote', {
-		input: z.object({
-			commentId: z.number(),
-			votes: z.number(),
-		}),
-		async resolve({ ctx, input }) {
-			return await ctx.prisma.comment.update({
-				where: {
-					id: input.commentId,
-				},
-				data: {
-					votes: input.votes,
-				},
-			});
-		},
-	})
-	.mutation('downvote', {
-		input: z.object({
-			commentId: z.number(),
-			votes: z.number(),
-		}),
-		async resolve({ ctx, input }) {
-			return await ctx.prisma.comment.update({
-				where: {
-					id: input.commentId,
-				},
-				data: {
-					votes: input.votes,
 				},
 			});
 		},

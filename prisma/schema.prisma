@@ -16,7 +16,7 @@ model Post {
   userId    String
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments  Comment[]
-  votes     Int       @default(0) 
+  votes      Vote[]
   // postUpvotedFrom   User[]    @relation(name: "upvotedPosts")
   // postDownvotedFrom User[]    @relation(name: "downvotedPosts")
 }
@@ -29,13 +29,22 @@ model Comment {
   userId    String
   postId    Int
   parentId  Int?
-  votes     Int       @default(0)
   parent    Comment?  @relation("ParentChild", fields: [parentId], references: [id])
   post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   children  Comment[] @relation("ParentChild")
-  // commentUpvotedFrom   User[]   @relation(name: "upvotedComments")
-  // commentDownvotedFrom User[]   @relation(name: "downvotedComments")
+  votes      Vote[]
+}
+
+model Vote {
+  id              Int         @id @default(autoincrement())
+  value           Int         @default(0)
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId          Int? 
+  post            Post?       @relation(fields: [postId], references: [id], onDelete: Cascade)
+  commentId       Int?
+  comment         Comment?    @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -74,6 +83,7 @@ model User {
   comments      Comment[]
   posts         Post[]
   sessions      Session[]
+  votes         Vote[]
   // upvotedPosts      Post[]    @relation(name: "upvotedPosts")
   // downvotedPosts    Post[]    @relation(name: "downvotedPosts")
   // upvotedComments   Comment[] @relation(name: "upvotedComments")
