@@ -14,6 +14,8 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
+						// votes: true,
+						comments: true,
 						_count: {
 							select: { comments: true },
 						},
@@ -39,13 +41,15 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
+						// votes: true,
+						comments: true,
 						_count: {
 							select: { comments: true },
 						},
 					},
-					orderBy: {
-						votes: 'desc',
-					},
+					// orderBy: {
+					// 	votes: 'desc',
+					// },
 				});
 			} catch (err) {
 				console.log('error', err);
@@ -64,13 +68,15 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
+						// votes: true,
+						comments: true,
 						_count: {
 							select: { comments: true },
 						},
 					},
-					orderBy: {
-						votes: 'asc',
-					},
+					// orderBy: {
+					// 	votes: 'asc',
+					// },
 				});
 			} catch (err) {
 				console.log('error', err);
@@ -89,6 +95,8 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
+						// votes: true,
+						comments: true,
 						_count: {
 							select: { comments: true },
 						},

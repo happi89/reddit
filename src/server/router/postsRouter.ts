@@ -18,7 +18,7 @@ export const postsRouter = createRouter()
 								id: true,
 							},
 						},
-						votes: true,
+						// votes: true,
 						comments: true,
 						_count: {
 							select: { comments: true },
