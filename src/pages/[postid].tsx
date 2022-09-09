@@ -27,7 +27,7 @@ const PostPage = () => {
 		);
 
 	return (
-		<div className='p-4 m-4'>
+		<div className='p-4 m-4 max-w-[64rem]'>
 			{post ? (
 				<>
 					<Link href='/'>

@@ -27,12 +27,12 @@ const Posts = () => {
 		filter === 'newest'
 			? trpc.useQuery(['post.getAll'])
 			: filter === 'oldest'
-			? trpc.useQuery(['filterPosts.getOldest'])
-			: filter === 'most likes'
-			? trpc.useQuery(['filterPosts.mostLiked'])
-			: filter === 'least likes'
-			? trpc.useQuery(['filterPosts.leastLiked'])
-			: trpc.useQuery(['filterPosts.mostComments']);
+				? trpc.useQuery(['filterPosts.getOldest'])
+				: filter === 'most likes'
+					? trpc.useQuery(['filterPosts.mostLiked'])
+					: filter === 'least likes'
+						? trpc.useQuery(['filterPosts.leastLiked'])
+						: trpc.useQuery(['filterPosts.mostComments']);
 
 	const { data: session } = useSession();
 
@@ -44,7 +44,7 @@ const Posts = () => {
 		);
 
 	return (
-		<div className='max-w-[72rem]'>
+		<div className='max-w-[64rem]'>
 			<FilterPosts setFilter={setFilter} />
 			{posts?.map((p, i: number) => {
 				// const voted = posts?.find((vote) => vote.userId === session?.user?.id);
@@ -53,7 +53,7 @@ const Posts = () => {
 						key={i}
 						post={p}
 						showDelete={p.user?.id === session?.user?.id}
-						// voted={voted ? true : false}
+					// voted={voted ? true : false}
 					/>
 				);
 			})}
@@ -65,20 +65,20 @@ export const SinglePost = ({
 	post,
 	showDelete,
 }: // voted,
-{
-	post: Post & {
-		user: {
-			id: string;
-			name: string | null;
+	{
+		post: Post & {
+			user: {
+				id: string;
+				name: string | null;
+			};
+			votes: Vote[];
+			_count: {
+				comments: number;
+			};
 		};
-		votes: Vote[];
-		_count: {
-			comments: number;
-		};
-	};
-	showDelete: boolean;
-	// voted: boolean;
-}) => {
+		showDelete: boolean;
+		// voted: boolean;
+	}) => {
 	const router = useRouter();
 	const ctx = trpc.useContext();
 	const deletePost = trpc.useMutation('post.deletePost', {
