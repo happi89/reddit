@@ -14,8 +14,7 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
-						// votes: true,
-						comments: true,
+						votes: true,
 						_count: {
 							select: { comments: true },
 						},
@@ -41,7 +40,7 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
-						// votes: true,
+						votes: true,
 						comments: true,
 						_count: {
 							select: { comments: true },
@@ -68,7 +67,7 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
-						// votes: true,
+						votes: true,
 						comments: true,
 						_count: {
 							select: { comments: true },
@@ -95,7 +94,7 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
-						// votes: true,
+						votes: true,
 						comments: true,
 						_count: {
 							select: { comments: true },

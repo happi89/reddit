@@ -32,7 +32,7 @@ export function Votes({
 	return (
 		<div className='mr-4 flex flex-col items-center bg-base-300 py-4 px-3'>
 			<button
-				className='btn btn-square btn-ghost btn-sm'
+				className='btn btn-square btn-ghost btn-sm hover:bg-primary'
 				onClick={() => {
 					postId
 						? votePost.mutate({
@@ -60,7 +60,7 @@ export function Votes({
 			</button>
 			<div>{votes}</div>
 			<button
-				className='btn btn-square btn-ghost btn-sm'
+				className='btn btn-square btn-ghost btn-sm hover:bg-primary'
 				onClick={() => {
 					postId
 						? votePost.mutate({

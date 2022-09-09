@@ -27,6 +27,8 @@ export type inferMutationInput<
 
 export type Comment = inferQueryOutput<'comment.getAll'>[number];
 
+// export type UpPost = inferQueryOutput<'filterPosts.mostLiked'>[number];
+
 export type CommentWithChildren = Comment & {
 	children: Array<CommentWithChildren>;
 };

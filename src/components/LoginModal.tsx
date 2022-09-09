@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unknown-property */
 import { signIn } from 'next-auth/react';
-import google from '../../public/google.svg';
 
 const LoginModal = () => {
 	return (

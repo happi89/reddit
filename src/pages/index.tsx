@@ -1,15 +1,15 @@
 import FilterPosts from './../components/FilterPosts';
-// import { Votes } from './../components/Votes';
+import { Votes } from './../components/Votes';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { trpc } from '../utils/trpc';
-import { Post } from '@prisma/client';
 import { useRouter } from 'next/router';
 import PostedBy from '../components/PostedBy';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Loader from '../../public/Reload-1s-200px.svg';
+import { Post, Vote } from '@prisma/client';
 
 const Home: NextPage = () => {
 	return (
@@ -20,17 +20,6 @@ const Home: NextPage = () => {
 		</>
 	);
 };
-
-interface PostWithUser extends Post {
-	user: {
-		name: string | null;
-		id: string;
-	};
-	_count: {
-		comments: number;
-	};
-	// votes: [Vote];
-}
 
 const Posts = () => {
 	const [filter, setFilter] = useState('newest');
@@ -77,7 +66,16 @@ export const SinglePost = ({
 	showDelete,
 }: // voted,
 {
-	post: Omit<PostWithUser, 'updatedAt' | 'userId'>;
+	post: Post & {
+		user: {
+			id: string;
+			name: string | null;
+		};
+		votes: Vote[];
+		_count: {
+			comments: number;
+		};
+	};
 	showDelete: boolean;
 	// voted: boolean;
 }) => {
@@ -100,7 +98,7 @@ export const SinglePost = ({
 
 	return (
 		<div className='bg-base-200 border-[1px] border-gray rounded-md mb-6 flex'>
-			{/* <Votes votes={post.votes[0]?.value || 0} postId={post.id} voted={voted} /> */}
+			<Votes votes={post.votes[0]?.value || 0} postId={post.id} />
 			<div className='p-4 w-full'>
 				<Link href={`/${post.id}`}>
 					<div className='cursor-pointer'>
