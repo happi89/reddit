@@ -1,14 +1,18 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+// import { useRouter } from 'next/router';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import LoginModal from './LoginModal';
 
 const Navbar = () => {
 	const { data: session, status } = useSession();
 
+	// const router = useRouter();
+
 	if (status === 'loading') return <div>Loading...</div>;
 
 	return (
-		<nav className='navbar w-full bg-base-200 border-b-[1px] border-gray border-w p-4'>
+		<nav className='navbar w-full bg-base-200 border-b-[1px] border-gray border-w p-4 mb-2'>
 			{session ? (
 				<>
 					<Link href='/'>
@@ -34,12 +38,12 @@ const Navbar = () => {
 				</>
 			) : (
 				<>
-					<h1 className='text-2xl font-bold flex-1'>Reddit</h1>
-					<button
-						className='btn btn-ghost text-lg'
-						onClick={() => signIn('discord')}>
-						Login
-					</button>
+					<Link href='/'>
+						<h1 className='text-2xl font-bold flex-1 text-[#ED4202] cursor-pointer'>
+							Reddit
+						</h1>
+					</Link>
+					<LoginModal />
 				</>
 			)}
 		</nav>

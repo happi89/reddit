@@ -1,6 +1,6 @@
 const FilterPosts = ({ setFilter }: { setFilter: (value: string) => void }) => {
 	return (
-		<div>
+		<div className='mb-2'>
 			<label className='label'>
 				<span className='label-text'>Filter Posts</span>
 			</label>
