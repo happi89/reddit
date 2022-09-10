@@ -4,7 +4,7 @@ import { useState } from 'react';
 import CommentForm from './CommentForm';
 import EditComment from './EditComment';
 import { useSession } from 'next-auth/react';
-// import { Votes } from './Votes';
+import { Votes } from './Votes';
 import { Comment as CommentT } from '@prisma/client';
 import Image from 'next/image';
 import Loader from '../../public/Reload-1s-200px.svg';
@@ -38,7 +38,7 @@ const Reply = ({
 	};
 
 	return (
-		<div className='mt-6'>
+		<div className='mt-6 pr-2 pb-1'>
 			<div className='flex justify-between items-center'>
 				<p>{replies} replies</p>
 				<div>
@@ -93,10 +93,10 @@ const Comments = ({ postId }: { postId: number }) => {
 						// eslint-disable-next-line react/no-unknown-property
 						key={comment.id}
 						className='bg-base-200 border-[1px] border-gray rounded-md mb-4 flex'>
-						{/* <Votes
+						<Votes
 							votes={comment?.votes[0]?.value || 0}
 							commentId={comment.id}
-						/> */}
+						/>
 						<div className='w-full flex flex-col items-between p-4'>
 							<PostedBy
 								name={comment.user.name ? comment.user.name : ''}

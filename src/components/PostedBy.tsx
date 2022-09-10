@@ -7,7 +7,7 @@ const PostedBy = ({
 }: {
 	name: string;
 	date: Date;
-	subRedditName: string;
+	subRedditName?: string;
 }) => {
 	const postedAt = (date: Date) => {
 		const then = date.getTime();
@@ -24,9 +24,11 @@ const PostedBy = ({
 	return (
 		<p className='mb-4 text-gray'>
 			<span>
-				<Link href={`r/${subRedditName}`}>
-					<span className='link'>r/{subRedditName}</span>
-				</Link>{' '}
+				{subRedditName && (
+					<Link href={`r/${subRedditName}`}>
+						<span className='link'>r/{subRedditName}</span>
+					</Link>
+				)}{' '}
 				posted by {name}
 			</span>
 			<span> {postedAt(date)}</span>
