@@ -18,6 +18,11 @@ export const postsRouter = createRouter()
 								id: true,
 							},
 						},
+						subReddit: {
+							select: {
+								name: true,
+							},
+						},
 						votes: true,
 						comments: true,
 						_count: {
@@ -40,6 +45,11 @@ export const postsRouter = createRouter()
 							select: {
 								name: true,
 								id: true,
+							},
+						},
+						subReddit: {
+							select: {
+								name: true,
 							},
 						},
 						votes: true,
@@ -68,6 +78,7 @@ export const postsRouter = createRouter()
 			title: z.string(),
 			body: z.string(),
 			userId: z.string(),
+			subRedditId: z.number(),
 		}),
 		async resolve({ ctx, input }) {
 			try {
@@ -76,6 +87,7 @@ export const postsRouter = createRouter()
 						title: input.title,
 						body: input.body,
 						user: { connect: { id: input.userId } },
+						subReddit: { connect: { id: input.subRedditId } },
 					},
 				});
 			} catch (err) {

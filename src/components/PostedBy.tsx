@@ -1,4 +1,12 @@
-const PostedBy = ({ name, date }: { name: string; date: Date }) => {
+const PostedBy = ({
+	name,
+	date,
+	subRedditName,
+}: {
+	name: string;
+	date: Date;
+	subRedditName: string;
+}) => {
 	const postedAt = (date: Date) => {
 		const then = date.getTime();
 		const now = new Date().getTime();
@@ -12,8 +20,10 @@ const PostedBy = ({ name, date }: { name: string; date: Date }) => {
 	};
 
 	return (
-		<p className='mb-2 text-gray'>
-			<span>posted by {name}</span>
+		<p className='mb-4 text-gray'>
+			<span>
+				r/{subRedditName} posted by {name}
+			</span>
 			<span> {postedAt(date)}</span>
 		</p>
 	);

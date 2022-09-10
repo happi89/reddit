@@ -14,6 +14,11 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
+						subReddit: {
+							select: {
+								name: true,
+							},
+						},
 						votes: true,
 						_count: {
 							select: { comments: true },
@@ -40,15 +45,22 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
+						subReddit: {
+							select: {
+								name: true,
+							},
+						},
 						votes: true,
 						comments: true,
 						_count: {
 							select: { comments: true },
 						},
 					},
-					// orderBy: {
-					// 	votes: 'desc',
-					// },
+					orderBy: {
+						votes: {
+							_count: 'desc',
+						},
+					},
 				});
 			} catch (err) {
 				console.log('error', err);
@@ -67,15 +79,22 @@ export const filterPostsRouter = createRouter()
 								id: true,
 							},
 						},
+						subReddit: {
+							select: {
+								name: true,
+							},
+						},
 						votes: true,
 						comments: true,
 						_count: {
 							select: { comments: true },
 						},
 					},
-					// orderBy: {
-					// 	votes: 'asc',
-					// },
+					orderBy: {
+						votes: {
+							_count: 'asc',
+						},
+					},
 				});
 			} catch (err) {
 				console.log('error', err);
@@ -92,6 +111,11 @@ export const filterPostsRouter = createRouter()
 							select: {
 								name: true,
 								id: true,
+							},
+						},
+						subReddit: {
+							select: {
+								name: true,
 							},
 						},
 						votes: true,

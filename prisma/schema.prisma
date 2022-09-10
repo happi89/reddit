@@ -7,18 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model SubReddit {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  name                String          
+  description         String
+  posts               Post[]
+  adminId             String
+  admin               User              @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  users               User[]            @relation("joinedUsers")  
+}
+
 model Post {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  title     String
-  body      String
-  userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments  Comment[]
-  votes      Vote[]
-  // postUpvotedFrom   User[]    @relation(name: "upvotedPosts")
-  // postDownvotedFrom User[]    @relation(name: "downvotedPosts")
+  id                    Int       @id @default(autoincrement())
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  title                 String
+  body                  String
+  userId                String
+  user                  User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments              Comment[]
+  votes                 Vote[]
+  subRedditId           Int
+  subReddit             SubReddit             @relation(fields: [subRedditId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
@@ -84,10 +96,8 @@ model User {
   posts         Post[]
   sessions      Session[]
   votes         Vote[]
-  // upvotedPosts      Post[]    @relation(name: "upvotedPosts")
-  // downvotedPosts    Post[]    @relation(name: "downvotedPosts")
-  // upvotedComments   Comment[] @relation(name: "upvotedComments")
-  // downvotedComments Comment[] @relation(name: "downvotedComments")
+  subRedditsOwned     SubReddit[]   
+  subRedditsJoined    SubReddit[]     @relation("joinedUsers")
 }
 
 model VerificationToken {

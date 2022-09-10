@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
-import { trpc } from '../utils/trpc';
-import { SinglePost } from './index';
+import { trpc } from '../../../utils/trpc';
+import { SinglePost } from '../../index';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import CommentForm from '../components/CommentForm';
-import Comments from '../components/Comments';
+import CommentForm from '../../../components/CommentForm';
+import Comments from '../../../components/Comments';
 import Image from 'next/image';
-import Loader from '../../public/Reload-1s-200px.svg';
+import Loader from '../../../../public/Reload-1s-200px.svg';
 
 const PostPage = () => {
 	const router = useRouter();
@@ -27,7 +27,7 @@ const PostPage = () => {
 		);
 
 	return (
-		<div className='p-4 m-4 max-w-[64rem]'>
+		<div className='p-4 ml-24 mt-12'>
 			{post ? (
 				<>
 					<Link href='/'>

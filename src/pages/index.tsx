@@ -14,7 +14,7 @@ import { Post, Vote } from '@prisma/client';
 const Home: NextPage = () => {
 	return (
 		<>
-			<main className='container mx-auto min-h-screen p-4'>
+			<main className='min-h-screen ml-24 mt-12'>
 				<Posts />
 			</main>
 		</>
@@ -27,12 +27,14 @@ const Posts = () => {
 		filter === 'newest'
 			? trpc.useQuery(['post.getAll'])
 			: filter === 'oldest'
-				? trpc.useQuery(['filterPosts.getOldest'])
-				: filter === 'most likes'
-					? trpc.useQuery(['filterPosts.mostLiked'])
-					: filter === 'least likes'
-						? trpc.useQuery(['filterPosts.leastLiked'])
-						: trpc.useQuery(['filterPosts.mostComments']);
+			? trpc.useQuery(['filterPosts.getOldest'])
+			: filter === 'most likes'
+			? trpc.useQuery(['filterPosts.mostLiked'])
+			: filter === 'least likes'
+			? trpc.useQuery(['filterPosts.leastLiked'])
+			: trpc.useQuery(['filterPosts.mostComments']);
+
+	console.log(posts);
 
 	const { data: session } = useSession();
 
@@ -53,7 +55,7 @@ const Posts = () => {
 						key={i}
 						post={p}
 						showDelete={p.user?.id === session?.user?.id}
-					// voted={voted ? true : false}
+						// voted={voted ? true : false}
 					/>
 				);
 			})}
@@ -65,20 +67,23 @@ export const SinglePost = ({
 	post,
 	showDelete,
 }: // voted,
-	{
-		post: Post & {
-			user: {
-				id: string;
-				name: string | null;
-			};
-			votes: Vote[];
-			_count: {
-				comments: number;
-			};
+{
+	post: Post & {
+		user: {
+			id: string;
+			name: string | null;
 		};
-		showDelete: boolean;
-		// voted: boolean;
-	}) => {
+		subReddit: {
+			name: string;
+		};
+		votes: Vote[];
+		_count: {
+			comments: number;
+		};
+	};
+	showDelete: boolean;
+	// voted: boolean;
+}) => {
 	const router = useRouter();
 	const ctx = trpc.useContext();
 	const deletePost = trpc.useMutation('post.deletePost', {
@@ -97,16 +102,17 @@ export const SinglePost = ({
 	});
 
 	return (
-		<div className='bg-base-200 border-[1px] border-gray rounded-md mb-6 flex'>
+		<div className='bg-base-200 border-[1px] border-gray rounded-md mb-6 flex max-w-[64rem]'>
 			<Votes votes={post.votes[0]?.value || 0} postId={post.id} />
-			<div className='p-4 w-full'>
-				<Link href={`/${post.id}`}>
+			<div className='p-5 w-full pr-8'>
+				<Link href={`/subreddit/posts/${post.id}`}>
 					<div className='cursor-pointer'>
 						<PostedBy
 							name={post.user.name ? post.user.name : ''}
 							date={post.createdAt}
+							subRedditName={post?.subReddit?.name}
 						/>
-						<h2 className='text-xl mb-2'>{post.title}</h2>
+						<h2 className='text-xl mb-4'>{post.title}</h2>
 						<p className=''>{post.body}</p>
 					</div>
 				</Link>
