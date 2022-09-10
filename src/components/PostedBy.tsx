@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const PostedBy = ({
 	name,
 	date,
@@ -22,7 +24,10 @@ const PostedBy = ({
 	return (
 		<p className='mb-4 text-gray'>
 			<span>
-				r/{subRedditName} posted by {name}
+				<Link href={`r/${subRedditName}`}>
+					<span className='link'>r/{subRedditName}</span>
+				</Link>{' '}
+				posted by {name}
 			</span>
 			<span> {postedAt(date)}</span>
 		</p>

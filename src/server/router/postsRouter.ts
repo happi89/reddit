@@ -69,6 +69,44 @@ export const postsRouter = createRouter()
 			}
 		},
 	})
+	.query('getAllBySubReddit', {
+		input: z.object({
+			subRedditId: z.number(),
+		}),
+		async resolve({ ctx, input }) {
+			try {
+				return await ctx.prisma.post.findMany({
+					where: {
+						subRedditId: input.subRedditId,
+					},
+					include: {
+						user: {
+							select: {
+								name: true,
+								id: true,
+							},
+						},
+						subReddit: {
+							select: {
+								name: true,
+								id: true,
+							},
+						},
+						votes: true,
+						_count: {
+							select: { comments: true },
+						},
+					},
+					orderBy: {
+						createdAt: 'desc',
+					},
+				});
+			} catch (err) {
+				console.log('error', err);
+				throw new TRPCError({ code: 'BAD_REQUEST' });
+			}
+		},
+	})
 	.middleware(async ({ ctx, next }) => {
 		if (!ctx.session) {
 			throw new TRPCError({ code: 'UNAUTHORIZED' });
@@ -80,7 +118,7 @@ export const postsRouter = createRouter()
 			title: z.string(),
 			body: z.string(),
 			userId: z.string(),
-			subRedditId: z.number(),
+			subRedditName: z.string(),
 		}),
 		async resolve({ ctx, input }) {
 			try {
@@ -89,7 +127,7 @@ export const postsRouter = createRouter()
 						title: input.title,
 						body: input.body,
 						user: { connect: { id: input.userId } },
-						subReddit: { connect: { id: input.subRedditId } },
+						subReddit: { connect: { name: input.subRedditName } },
 					},
 				});
 			} catch (err) {

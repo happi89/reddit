@@ -14,7 +14,7 @@ import { Post, Vote } from '@prisma/client';
 const Home: NextPage = () => {
 	return (
 		<>
-			<main className='min-h-screen ml-24 mt-12'>
+			<main className='container min-h-screen mx-auto mt-12'>
 				<Posts />
 			</main>
 		</>
