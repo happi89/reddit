@@ -17,6 +17,7 @@ export const filterPostsRouter = createRouter()
 						subReddit: {
 							select: {
 								name: true,
+								id: true,
 							},
 						},
 						votes: true,
@@ -48,6 +49,7 @@ export const filterPostsRouter = createRouter()
 						subReddit: {
 							select: {
 								name: true,
+								id: true,
 							},
 						},
 						votes: true,
@@ -82,6 +84,7 @@ export const filterPostsRouter = createRouter()
 						subReddit: {
 							select: {
 								name: true,
+								id: true,
 							},
 						},
 						votes: true,
@@ -116,6 +119,7 @@ export const filterPostsRouter = createRouter()
 						subReddit: {
 							select: {
 								name: true,
+								id: true,
 							},
 						},
 						votes: true,

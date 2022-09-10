@@ -75,6 +75,7 @@ export const SinglePost = ({
 		};
 		subReddit: {
 			name: string;
+			id: number;
 		};
 		votes: Vote[];
 		_count: {
@@ -105,7 +106,7 @@ export const SinglePost = ({
 		<div className='bg-base-200 border-[1px] border-gray rounded-md mb-6 flex max-w-[64rem]'>
 			<Votes votes={post.votes[0]?.value || 0} postId={post.id} />
 			<div className='p-5 w-full pr-8'>
-				<Link href={`/subreddit/posts/${post.id}`}>
+				<Link href={`/r/${post.subReddit.name}/posts/${post.id}`}>
 					<div className='cursor-pointer'>
 						<PostedBy
 							name={post.user.name ? post.user.name : ''}

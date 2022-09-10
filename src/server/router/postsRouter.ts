@@ -21,6 +21,7 @@ export const postsRouter = createRouter()
 						subReddit: {
 							select: {
 								name: true,
+								id: true,
 							},
 						},
 						votes: true,
@@ -50,6 +51,7 @@ export const postsRouter = createRouter()
 						subReddit: {
 							select: {
 								name: true,
+								id: true,
 							},
 						},
 						votes: true,
