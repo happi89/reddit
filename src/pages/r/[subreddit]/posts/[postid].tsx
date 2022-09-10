@@ -27,7 +27,7 @@ const PostPage = () => {
 		);
 
 	return (
-		<div className='p-4 ml-24 mt-12'>
+		<div className='container mx-auto mt-12'>
 			{post ? (
 				<>
 					<Link href='/'>
