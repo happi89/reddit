@@ -27,7 +27,7 @@ const PostPage = () => {
 		);
 
 	return (
-		<div className='container mx-auto mt-12'>
+		<div className='container mx-auto mt-12 md:px-8 max-w-[72rem]'>
 			{post ? (
 				<>
 					<Link href='/'>

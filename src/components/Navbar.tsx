@@ -21,7 +21,7 @@ const Navbar = () => {
 						</h1>
 					</Link>
 					<div className='flex-none flex items-center justify-center gap-2'>
-						<Link href='/submit'>
+						<Link href='/create-post'>
 							<button className='btn btn-ghost'>Create Post</button>
 						</Link>
 						<Image

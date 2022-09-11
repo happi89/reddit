@@ -33,10 +33,13 @@ const SubRedditPage = () => {
 	console.log(data);
 
 	return (
-		<div className='container mx-auto'>
-			<div className='navbar flex justify-between mb-8 mt-4'>
-				<div className='flex flex-col items-start'>
-					<h1 className='text-3xl font-bold mb-1'>{data?.name}</h1>
+		<div className='container mx-auto mt-8 max-w-[72rem]'>
+			<div className='navbar mb-8'>
+				<div className='flex flex-col items-start w-[89%]'>
+					<div className='w-full flex justify-between'>
+						<h1 className='text-3xl font-bold mb-1'>{data?.name}</h1>
+						<button className='btn btn-primary text-lg'>Join</button>
+					</div>
 					<h2 className='text-xl mb-1'>{data?.description}</h2>
 					<h3 className='text-lg mb-1'>
 						Created {String(data?.createdAt).slice(0, 15)}
@@ -45,7 +48,6 @@ const SubRedditPage = () => {
 						{data?._count.users} user(s) & {data?._count.posts} post(s)
 					</p>
 				</div>
-				<button className='btn btn-primary text-lg'>Join</button>
 			</div>
 			<div className='max-w-[64rem]'>
 				<h2 className='text-2xl font-bold mb-4'>Posts</h2>

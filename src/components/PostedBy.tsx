@@ -25,7 +25,7 @@ const PostedBy = ({
 		<p className='mb-4 text-gray'>
 			<span>
 				{subRedditName && (
-					<Link href={`r/${subRedditName}`}>
+					<Link href={`/r/${subRedditName}`}>
 						<span className='link'>r/{subRedditName}</span>
 					</Link>
 				)}{' '}

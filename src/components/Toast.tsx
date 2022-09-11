@@ -1,7 +1,7 @@
-const Toast = ({ info }: { info: { type: string; message: string } }) => {
+const Toast = ({ info }: { info: { type?: string; message: string } }) => {
 	return (
 		<div className='toast'>
-			<div className={`alert alert-${info.type}`}>
+			<div className={`alert alert-${info.type || 'error'}`}>
 				<div>
 					<span>{info.message}</span>
 				</div>

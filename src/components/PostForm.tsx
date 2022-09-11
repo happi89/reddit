@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { trpc } from '../utils/trpc';
 import Toast from './Toast';
+import SelectFilter from './SelectFilter';
 
 export const PostForm = ({ id }: { id: string }) => {
 	const [title, setTitle] = useState('');
@@ -43,28 +44,24 @@ export const PostForm = ({ id }: { id: string }) => {
 	};
 
 	return (
-		<form className='w-full mt-4' onSubmit={onSubmit}>
-			<input
-				type='text'
-				placeholder='Title'
-				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none mb-4'
-				value={title}
-				onChange={({ target }) => setTitle(target.value)}
-			/>
+		<form className='mt-4 p-1' onSubmit={onSubmit}>
+			<SelectFilter />
 			<input
 				type='text'
 				placeholder='SubReddit Name'
-				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none mb-4'
+				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none mb-4 shadow-md'
 				value={subRedditName}
 				onChange={({ target }) => setSubRedditName(target.value)}
 			/>
 			<textarea
 				placeholder='Body'
-				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none min-h-[100px] mb-4' // rows={8}
+				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none min-h[60px] mb-4 shadow-md' // rows={8}
 				value={body}
 				onChange={({ target }) => setBody(target.value)}
 			/>
-			<button type='submit' className='btn btn-primary w-full mt-2 text-lg'>
+			<button
+				type='submit'
+				className='btn btn-primary w-full mt-2 text-lg shadow-md'>
 				Submit
 			</button>
 			{toast.type && <Toast info={toast} />}
