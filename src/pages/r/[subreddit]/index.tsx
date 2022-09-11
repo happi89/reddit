@@ -33,7 +33,7 @@ const SubRedditPage = () => {
 	console.log(data);
 
 	return (
-		<div className='container mx-auto mt-8 max-w-[72rem]'>
+		<div className='container mx-auto mt-8'>
 			<div className='navbar mb-8'>
 				<div className='flex flex-col items-start w-[89%]'>
 					<div className='w-full flex justify-between'>

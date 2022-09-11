@@ -7,10 +7,12 @@ import SelectFilter from './SelectFilter';
 export const PostForm = ({ id }: { id: string }) => {
 	const [title, setTitle] = useState('');
 	const [body, setBody] = useState('');
-	const [subRedditName, setSubRedditName] = useState('');
+	const [subReddit, setSubReddit] = useState({ name: '', id: 0 });
 	const [toast, setToast] = useState({ show: false, message: '', type: '' });
 	const router = useRouter();
 	const ctx = trpc.useContext();
+
+	const { data: subreddits, isLoading } = trpc.useQuery(['subreddit.getAll']);
 
 	const addPost = trpc.useMutation('post.addPost', {
 		onSuccess: () => ctx.invalidateQueries(['post.getAll']),
@@ -18,11 +20,11 @@ export const PostForm = ({ id }: { id: string }) => {
 
 	const onSubmit = (e: { preventDefault: () => void }) => {
 		e.preventDefault();
-		if (title.length && body.length > 2) {
+		if (title.length > 11) {
 			addPost.mutate({
 				title,
 				body,
-				subRedditName,
+				subRedditName: subReddit.name,
 				userId: id,
 			});
 			router.push('/');
@@ -35,23 +37,29 @@ export const PostForm = ({ id }: { id: string }) => {
 			setToast({
 				show: false,
 				message:
-					title.length || body.length < 3
-						? 'post title and body has to be atleast 2 characters'
+					title.length < 11
+						? 'post title has to be atleast 10 characters'
 						: 'please select a valid community',
 				type: 'error',
 			});
 		}
 	};
 
+	if (isLoading) return <div>Loading...</div>;
+
 	return (
 		<form className='mt-4 p-1' onSubmit={onSubmit}>
-			<SelectFilter />
+			<SelectFilter
+				subreddits={subreddits ? subreddits : []}
+				subReddit={subReddit}
+				setSubReddit={setSubReddit}
+			/>
 			<input
 				type='text'
-				placeholder='SubReddit Name'
+				placeholder='Title'
 				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none mb-4 shadow-md'
-				value={subRedditName}
-				onChange={({ target }) => setSubRedditName(target.value)}
+				value={title}
+				onChange={({ target }) => setTitle(target.value)}
 			/>
 			<textarea
 				placeholder='Body'

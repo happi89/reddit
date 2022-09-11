@@ -29,6 +29,21 @@ export const subRedditRouter = createRouter()
 			}
 		},
 	})
+	.query('getAll', {
+		async resolve({ ctx }) {
+			try {
+				return await ctx.prisma.subReddit.findMany({
+					select: {
+						name: true,
+						id: true,
+					},
+				});
+			} catch (err) {
+				console.log('error', err);
+				throw new TRPCError({ code: 'BAD_REQUEST' });
+			}
+		},
+	})
 	.middleware(async ({ ctx, next }) => {
 		if (!ctx.session) {
 			throw new TRPCError({ code: 'UNAUTHORIZED' });
