@@ -36,9 +36,9 @@ const SubRedditPage = () => {
 		<div className='container mx-auto mt-8'>
 			<div className='navbar mb-8'>
 				<div className='flex flex-col items-start w-[89%]'>
-					<div className='w-full flex justify-between'>
-						<h1 className='text-3xl font-bold mb-1'>{data?.name}</h1>
-						<button className='btn btn-primary text-lg'>Join</button>
+					<div className='w-[64rem] mb-2 flex'>
+						<h1 className='text-3xl font-bold mb-1'>r/{data?.name}</h1>
+						<button className='btn btn-primary btn-sm ml-auto'>Join</button>
 					</div>
 					<h2 className='text-xl mb-1'>{data?.description}</h2>
 					<h3 className='text-lg mb-1'>

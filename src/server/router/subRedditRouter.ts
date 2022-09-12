@@ -63,6 +63,7 @@ export const subRedditRouter = createRouter()
 						name: input.name,
 						description: input.description,
 						admin: { connect: { id: input.adminId } },
+						users: { connect: { id: input.adminId } },
 					},
 				});
 			} catch (err) {

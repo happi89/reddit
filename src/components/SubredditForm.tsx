@@ -12,7 +12,10 @@ const SubredditForm = () => {
 	const router = useRouter();
 	const { data: session } = useSession();
 
-	const addSubreddit = trpc.useMutation('subreddit.addSubreddit');
+	const ctx = trpc.useContext();
+	const addSubreddit = trpc.useMutation('subreddit.addSubreddit', {
+		onSuccess: () => ctx.invalidateQueries(['subreddit.getAll']),
+	});
 
 	return (
 		<form
