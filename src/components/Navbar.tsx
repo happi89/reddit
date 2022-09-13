@@ -1,4 +1,3 @@
-// import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,8 +24,10 @@ const Navbar = () => {
 						<Link href='/create/create-post'>
 							<button className='btn btn-ghost'>Create Post</button>
 						</Link>
-						<div className='dropdown dropdown-hover dropdown-end'>
-							<label tabIndex={0} className='btn m-1 bg-base-200 border-none'>
+						<div className='dropdown dropdown-end '>
+							<label
+								tabIndex={0}
+								className='btn m-1 bg-base-200 border-none hover:bg-gray'>
 								<Image
 									src={session?.user?.image ? session?.user?.image : ''}
 									alt='s'
@@ -41,7 +42,7 @@ const Navbar = () => {
 								<li>
 									<a
 										onClick={() => {
-											router.push(`/${session.user?.name}`);
+											router.push(`/user/${session.user?.name}`);
 										}}>
 										Profile
 									</a>

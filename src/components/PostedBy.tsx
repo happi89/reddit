@@ -26,10 +26,13 @@ const PostedBy = ({
 			<span>
 				{subRedditName && (
 					<Link href={`/r/${subRedditName}`}>
-						<span className='link'>r/{subRedditName}</span>
+						<span className='link link-primary'>r/{subRedditName}</span>
 					</Link>
 				)}{' '}
-				posted by {name}
+				posted by{' '}
+				<Link href={`/user/profile/${name}`}>
+					<span className='link link-primary'>{name}</span>
+				</Link>
 			</span>
 			<span> {postedAt(date)}</span>
 		</p>
