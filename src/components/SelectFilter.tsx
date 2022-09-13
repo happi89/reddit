@@ -92,7 +92,7 @@ export default function SelectFilter({
 					</Transition>
 				</div>
 			</Combobox>
-			<Link href='/create-subreddit'>
+			<Link href='/create/create-subreddit'>
 				<p className='text-end mt-1 mr-1 text-sm text-gray link'>
 					Create Subreddit
 				</p>

@@ -1,4 +1,4 @@
-import SubredditForm from './../components/SubredditForm';
+import SubredditForm from '../../components/SubredditForm';
 import Link from 'next/link';
 
 const CreateSubreddit = () => {

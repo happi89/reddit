@@ -28,7 +28,7 @@ const SubredditForm = () => {
 						description,
 						adminId: String(session?.user?.id),
 					});
-					router.push('/create-post');
+					router.push('/create/create-post');
 					setName('');
 					setDescription('');
 				} else {

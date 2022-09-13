@@ -7,7 +7,10 @@ import SelectFilter from './SelectFilter';
 export const PostForm = ({ id }: { id: string }) => {
 	const [title, setTitle] = useState('');
 	const [body, setBody] = useState('');
-	const [subReddit, setSubReddit] = useState({ name: '', id: 0 });
+	const [subReddit, setSubReddit] = useState({
+		name: '...',
+		id: 0,
+	});
 	const [toast, setToast] = useState({ show: false, message: '', type: '' });
 	const router = useRouter();
 	const ctx = trpc.useContext();

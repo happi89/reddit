@@ -1,4 +1,4 @@
-import { PostForm } from './../components/PostForm';
+import { PostForm } from '../../components/PostForm';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
