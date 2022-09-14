@@ -4,6 +4,7 @@ import UserNavbar from '../../../components/UserNavbar';
 import { trpc } from '../../../utils/trpc';
 import Image from 'next/image';
 import Loader from '../../../../public/Reload-1s-200px.svg';
+import UserInfo from './../../../components/UserInfo';
 
 const ViewUser = () => {
 	const [title, setTitle] = useState('Profile');
@@ -33,14 +34,9 @@ const ViewUser = () => {
 				{userView}&apos;s &nbsp;{title}
 			</h1>
 			{title === 'Profile' ? (
-				<>
-					<p>Joined {String(user?.createdAt).slice(0, 15)}</p>
-					<p>posts: {user?._count.posts}</p>
-					<p>comments: {user?._count.comments}</p>
-					<p>subreddits joined: {user?._count.subRedditsJoined}</p>
-				</>
+				<UserInfo count={user?._count} createdAt={user?.createdAt} />
 			) : (
-				<p>{title}</p>
+				''
 			)}
 		</div>
 	);
