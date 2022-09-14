@@ -8,7 +8,7 @@ export const PostForm = ({ id }: { id: string }) => {
 	const [title, setTitle] = useState('');
 	const [body, setBody] = useState('');
 	const [subReddit, setSubReddit] = useState({
-		name: '...',
+		name: '',
 		id: 0,
 	});
 	const [toast, setToast] = useState({ show: false, message: '', type: '' });
