@@ -107,6 +107,44 @@ export const postsRouter = createRouter()
 			}
 		},
 	})
+	.query('getAllByUsers', {
+		input: z.object({
+			userId: z.string(),
+		}),
+		async resolve({ ctx, input }) {
+			try {
+				return await ctx.prisma.post.findMany({
+					where: {
+						userId: input.userId,
+					},
+					include: {
+						user: {
+							select: {
+								name: true,
+								id: true,
+							},
+						},
+						subReddit: {
+							select: {
+								name: true,
+								id: true,
+							},
+						},
+						votes: true,
+						_count: {
+							select: { comments: true },
+						},
+					},
+					orderBy: {
+						createdAt: 'desc',
+					},
+				});
+			} catch (err) {
+				console.log('error', err);
+				throw new TRPCError({ code: 'BAD_REQUEST' });
+			}
+		},
+	})
 	.middleware(async ({ ctx, next }) => {
 		if (!ctx.session) {
 			throw new TRPCError({ code: 'UNAUTHORIZED' });
