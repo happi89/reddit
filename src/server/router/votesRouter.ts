@@ -13,7 +13,7 @@ export const votesRouter = createRouter()
 	.mutation('commentVote', {
 		input: z.object({
 			commentId: z.number(),
-			value: z.number().min(-1).max(1),
+			voteType: z.ZodEnum({}),
 		}),
 		async resolve({ ctx, input }) {
 			try {
@@ -24,26 +24,26 @@ export const votesRouter = createRouter()
 					(vote: Vote) => input.commentId === vote.commentId
 				);
 
-				if (input.value === 0) {
+				if (voteExists) {
+					if (voteExists.voteType !== input.voteType) {
+						return await ctx.prisma.vote.update({
+							where: {
+								id: Number(voteExists.id),
+							},
+							data: {
+								voteType: input.voteType,
+							},
+						});
+					}
+
 					return await ctx.prisma.vote.delete({
 						where: { id: Number(voteExists?.id) },
 					});
 				}
 
-				if (voteExists) {
-					return await ctx.prisma.vote.update({
-						where: {
-							id: Number(voteExists.id),
-						},
-						data: {
-							value: input.value,
-						},
-					});
-				}
-
 				return await ctx.prisma.vote.create({
 					data: {
-						value: input.value,
+						voteType: input.voteType,
 						user: {
 							connect: { id: ctx.session?.user?.id },
 						},
@@ -61,37 +61,38 @@ export const votesRouter = createRouter()
 	.mutation('postVote', {
 		input: z.object({
 			postId: z.number(),
-			value: z.number().min(-1).max(1),
+			voteType: z.string(),
 		}),
 		async resolve({ ctx, input }) {
 			try {
 				const votes = await ctx.prisma.vote.findMany({
 					where: { userId: ctx.session?.user?.id },
 				});
+
 				const voteExists = votes.find(
 					(vote: Vote) => input.postId === vote.postId
 				);
 
-				if (input.value === 0) {
+				if (voteExists) {
+					if (voteExists.voteType !== input.voteType) {
+						return await ctx.prisma.vote.update({
+							where: {
+								id: Number(voteExists.id),
+							},
+							data: {
+								voteType: input.voteType,
+							},
+						});
+					}
+
 					return await ctx.prisma.vote.delete({
 						where: { id: Number(voteExists?.id) },
 					});
 				}
 
-				if (voteExists) {
-					return await ctx.prisma.vote.update({
-						where: {
-							id: Number(voteExists.id),
-						},
-						data: {
-							value: voteExists.value + input.value,
-						},
-					});
-				}
-
 				return await ctx.prisma.vote.create({
 					data: {
-						value: input.value,
+						voteType: input.voteType,
 						user: {
 							connect: { id: ctx.session?.user?.id },
 						},
