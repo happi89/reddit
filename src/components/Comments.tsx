@@ -93,10 +93,7 @@ const Comments = ({ postId }: { postId: number }) => {
 						// eslint-disable-next-line react/no-unknown-property
 						key={comment.id}
 						className='bg-base-200 border-[1px] border-gray rounded-md mb-4 flex'>
-						<Votes
-							votes={comment?.votes[0]?.value || 0}
-							commentId={comment.id}
-						/>
+						<Votes votes={comment.votes} commentId={comment.id} />
 						<div className='w-full flex flex-col items-between p-4'>
 							<PostedBy
 								name={comment.user.name ? comment.user.name : ''}

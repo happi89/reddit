@@ -49,13 +49,11 @@ const Posts = () => {
 		<div className='max-w-[72rem]'>
 			<FilterPosts setFilter={setFilter} />
 			{posts?.map((p, i: number) => {
-				// const voted = posts?.find((vote) => vote.userId === session?.user?.id);
 				return (
 					<SinglePost
 						key={i}
 						post={p}
 						showDelete={p.user?.id === session?.user?.id}
-						// voted={voted ? true : false}
 					/>
 				);
 			})}
@@ -66,8 +64,7 @@ const Posts = () => {
 export const SinglePost = ({
 	post,
 	showDelete,
-}: // voted,
-{
+}: {
 	post: Post & {
 		user: {
 			id: string;
@@ -83,7 +80,6 @@ export const SinglePost = ({
 		};
 	};
 	showDelete: boolean;
-	// voted: boolean;
 }) => {
 	const router = useRouter();
 	const ctx = trpc.useContext();
@@ -104,7 +100,7 @@ export const SinglePost = ({
 
 	return (
 		<div className='bg-base-200 border-[1px] border-gray rounded-md mb-6 flex max-w-[72rem]'>
-			<Votes votes={post.votes[0]?.value || 0} postId={post.id} />
+			<Votes votes={post.votes} postId={post.id} />
 			<div className='p-5 w-full pr-8'>
 				<Link href={`/r/${post.subReddit.name}/posts/${post.id}`}>
 					<div className='cursor-pointer'>

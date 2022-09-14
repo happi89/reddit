@@ -2,17 +2,16 @@ import Image from 'next/image';
 import upVoteImage from '../../public/up-arrow.png';
 import downVoteImage from '../../public/download.png';
 import { trpc } from '../utils/trpc';
+import { Vote } from '@prisma/client';
 
 export function Votes({
 	votes,
 	postId,
 	commentId,
-}: // voted,
-{
-	votes: number;
+}: {
+	votes: Vote[];
 	postId?: number;
 	commentId?: number;
-	// voted?: boolean;
 }) {
 	const ctx = trpc.useContext();
 	const voteComment = trpc.useMutation('vote.commentVote', {
@@ -29,6 +28,11 @@ export function Votes({
 		},
 	});
 
+	const upVotes = votes?.filter((vote) => vote.voteType === 'UPVOTE');
+	const downVotes = votes?.filter((vote) => vote.voteType === 'DOWNVOTE');
+	const totalVotes = upVotes.length - downVotes.length;
+	console.log(totalVotes);
+
 	return (
 		<div className='mr-4 flex flex-col items-center bg-base-300 py-4 px-3'>
 			<button
@@ -44,21 +48,11 @@ export function Votes({
 								commentId,
 								voteType: 'UPVOTE',
 						  })
-						: // : voted && commentId
-						  // ? voteComment.mutate({
-						  // 		commentId,
-						  // 		value: 0,
-						  //   })
-						  // : voted && postId
-						  // ? votePost.mutate({
-						  // 		postId,
-						  // 		value: 0,
-						  //   })
-						  null;
+						: null;
 				}}>
 				<Image src={upVoteImage} alt='arrow up' height={25} width={25} />
 			</button>
-			<div>{votes}</div>
+			<div>{totalVotes}</div>
 			<button
 				className='btn btn-square btn-ghost btn-sm hover:bg-primary'
 				onClick={() => {
@@ -70,20 +64,9 @@ export function Votes({
 						: commentId
 						? voteComment.mutate({
 								commentId,
-								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 								voteType: 'DOWNVOTE',
 						  })
-						: // : voted && commentId
-						  // ? voteComment.mutate({
-						  // 		commentId,
-						  // 		value: 0,
-						  //   })
-						  // : voted && postId
-						  // ? votePost.mutate({
-						  // 		postId,
-						  // 		value: 0,
-						  //   })
-						  null;
+						: null;
 				}}>
 				<Image src={downVoteImage} alt='arrow up' height={25} width={25} />
 			</button>
