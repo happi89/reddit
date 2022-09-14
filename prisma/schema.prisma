@@ -48,9 +48,14 @@ model Comment {
   votes      Vote[]
 }
 
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
+
 model Vote {
   id              Int         @id @default(autoincrement())
-  value           Int         @default(0)
+  voteType        VoteType
   userId          String
   user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   postId          Int? 
