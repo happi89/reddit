@@ -13,7 +13,7 @@ export const votesRouter = createRouter()
 	.mutation('commentVote', {
 		input: z.object({
 			commentId: z.number(),
-			voteType: z.ZodEnum({}),
+			voteType: z.enum(['UPVOTE', 'DOWNVOTE']),
 		}),
 		async resolve({ ctx, input }) {
 			try {
@@ -61,7 +61,7 @@ export const votesRouter = createRouter()
 	.mutation('postVote', {
 		input: z.object({
 			postId: z.number(),
-			voteType: z.string(),
+			voteType: z.enum(['UPVOTE', 'DOWNVOTE']),
 		}),
 		async resolve({ ctx, input }) {
 			try {

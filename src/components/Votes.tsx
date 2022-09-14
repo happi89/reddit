@@ -37,12 +37,12 @@ export function Votes({
 					postId
 						? votePost.mutate({
 								postId,
-								value: 1,
+								voteType: 'UPVOTE',
 						  })
 						: commentId
 						? voteComment.mutate({
 								commentId,
-								value: 1,
+								voteType: 'UPVOTE',
 						  })
 						: // : voted && commentId
 						  // ? voteComment.mutate({
@@ -65,13 +65,13 @@ export function Votes({
 					postId
 						? votePost.mutate({
 								postId,
-								value: -1,
+								voteType: 'DOWNVOTE',
 						  })
 						: commentId
 						? voteComment.mutate({
 								commentId,
 								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-								value: -1,
+								voteType: 'DOWNVOTE',
 						  })
 						: // : voted && commentId
 						  // ? voteComment.mutate({
