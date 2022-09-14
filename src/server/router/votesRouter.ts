@@ -26,12 +26,21 @@ export const votesRouter = createRouter()
 
 				if (voteExists) {
 					if (voteExists.voteType !== input.voteType) {
-						return await ctx.prisma.vote.update({
+						return await ctx.prisma.vote.upsert({
 							where: {
 								id: Number(voteExists.id),
 							},
-							data: {
+							update: {
 								voteType: input.voteType,
+							},
+							create: {
+								voteType: input.voteType,
+								user: {
+									connect: { id: ctx.session?.user?.id },
+								},
+								comment: {
+									connect: { id: input.commentId },
+								},
 							},
 						});
 					}
@@ -40,18 +49,6 @@ export const votesRouter = createRouter()
 						where: { id: Number(voteExists?.id) },
 					});
 				}
-
-				return await ctx.prisma.vote.create({
-					data: {
-						voteType: input.voteType,
-						user: {
-							connect: { id: ctx.session?.user?.id },
-						},
-						comment: {
-							connect: { id: input.commentId },
-						},
-					},
-				});
 			} catch (err) {
 				console.log('Error', err);
 				throw new TRPCError({ code: 'BAD_REQUEST' });
@@ -74,13 +71,22 @@ export const votesRouter = createRouter()
 				);
 
 				if (voteExists) {
-					if (voteExists.voteType !== input.voteType) {
-						return await ctx.prisma.vote.update({
+					if (voteExists?.voteType !== input.voteType) {
+						return await ctx.prisma.vote.upsert({
 							where: {
 								id: Number(voteExists.id),
 							},
-							data: {
+							update: {
 								voteType: input.voteType,
+							},
+							create: {
+								voteType: input.voteType,
+								user: {
+									connect: { id: ctx.session?.user?.id },
+								},
+								post: {
+									connect: { id: input.postId },
+								},
 							},
 						});
 					}
@@ -89,18 +95,6 @@ export const votesRouter = createRouter()
 						where: { id: Number(voteExists?.id) },
 					});
 				}
-
-				return await ctx.prisma.vote.create({
-					data: {
-						voteType: input.voteType,
-						user: {
-							connect: { id: ctx.session?.user?.id },
-						},
-						post: {
-							connect: { id: input.postId },
-						},
-					},
-				});
 			} catch (err) {
 				console.log('Error', err);
 				throw new TRPCError({ code: 'BAD_REQUEST' });
