@@ -84,7 +84,7 @@ const Comments = ({ postId }: { postId: number }) => {
 		);
 
 	return (
-		<div className='mt-4'>
+		<div className='mt-4 max-w-[72rem]'>
 			<h2 className='text-2xl my-3'>Comments</h2>
 			{comments?.map((comment) => {
 				return (
