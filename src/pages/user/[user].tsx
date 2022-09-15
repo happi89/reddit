@@ -32,7 +32,11 @@ const UserPage = () => {
 				tabs={['User Settings', 'Posts', 'Comments', 'Subreddits']}
 			/>
 			<h1 className='text-2xl font-bold mt-4'>{title}</h1>
-			<UserInfo count={user?._count} createdAt={user?.createdAt} />
+			<UserInfo
+				count={user?._count}
+				createdAt={user?.createdAt}
+				bio={user?.bio || ''}
+			/>
 		</div>
 	);
 };

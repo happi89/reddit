@@ -1,9 +1,11 @@
 const UserInfo = ({
 	count,
 	createdAt,
+	bio,
 }: {
 	count?: { posts: number; comments: number; subRedditsJoined: number };
 	createdAt?: Date;
+	bio?: string;
 }) => {
 	return (
 		<>
@@ -11,6 +13,7 @@ const UserInfo = ({
 			<p>posts: {count?.posts}</p>
 			<p>comments: {count?.comments}</p>
 			<p>subreddits joined: {count?.subRedditsJoined}</p>
+			<p>Bio: {bio}</p>
 		</>
 	);
 };
