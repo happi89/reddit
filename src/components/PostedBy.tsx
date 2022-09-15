@@ -34,7 +34,7 @@ const PostedBy = ({
 					<span className='link link-primary'>{name}</span>
 				</Link>
 			</span>
-			<span> {postedAt(date)}</span>
+			<span> &nbsp;{postedAt(date)}</span>
 		</p>
 	);
 };
