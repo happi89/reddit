@@ -82,7 +82,6 @@ const Comments = ({ postId }: { postId: number }) => {
 				<Image src={Loader} alt='loader' width={70} height={70} />
 			</div>
 		);
-	console.log(comments);
 
 	return (
 		<div className='mt-4'>
