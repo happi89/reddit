@@ -6,7 +6,7 @@ import Toast from './Toast';
 
 const EditPost = ({ post }: { post: Post }) => {
 	const [title, setTitle] = useState(post.title);
-	const [body, setBody] = useState(post.body);
+	const [body, setBody] = useState(post?.body);
 	const [toast, setToast] = useState({ show: false, message: '', type: '' });
 	const router = useRouter();
 	const ctx = trpc.useContext();
@@ -18,11 +18,16 @@ const EditPost = ({ post }: { post: Post }) => {
 	const onSubmit = (e: { preventDefault: () => void }) => {
 		e.preventDefault();
 		if (title.length > 1) {
-			editPost.mutate({
-				title,
-				body,
-				postId: post.id,
-			});
+			body
+				? editPost.mutate({
+						title,
+						body,
+						postId: post.id,
+				  })
+				: editPost.mutate({
+						title,
+						postId: post.id,
+				  });
 			router.push('/');
 			setTitle('');
 			setBody('');
@@ -50,7 +55,7 @@ const EditPost = ({ post }: { post: Post }) => {
 			<textarea
 				placeholder='Body'
 				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none min-h-[100px]' // rows={8}
-				value={body}
+				value={body || ''}
 				onChange={({ target }) => setBody(target.value)}
 			/>
 			<button type='submit' className='btn btn-primary w-full mt-2 text-lg'>
