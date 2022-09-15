@@ -6,7 +6,7 @@ import SelectFilter from './SelectFilter';
 
 export const PostForm = ({ id }: { id: string }) => {
 	const [title, setTitle] = useState('');
-	const [body, setBody] = useState('');
+	const [body, setBody] = useState<string | null>('');
 	const [subReddit, setSubReddit] = useState({
 		name: '',
 		id: 0,
@@ -24,12 +24,18 @@ export const PostForm = ({ id }: { id: string }) => {
 	const onSubmit = (e: { preventDefault: () => void }) => {
 		e.preventDefault();
 		if (title.length > 11) {
-			addPost.mutate({
-				title,
-				body,
-				subRedditName: subReddit.name,
-				userId: id,
-			});
+			body
+				? addPost.mutate({
+						title,
+						body,
+						subRedditName: subReddit.name,
+						userId: id,
+				  })
+				: addPost.mutate({
+						title,
+						subRedditName: subReddit.name,
+						userId: id,
+				  });
 			router.push('/');
 			setTitle('');
 			setBody('');
@@ -67,7 +73,7 @@ export const PostForm = ({ id }: { id: string }) => {
 			<textarea
 				placeholder='Body'
 				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none min-h[60px] mb-4 shadow-md' // rows={8}
-				value={body}
+				value={body || ''}
 				onChange={({ target }) => setBody(target.value)}
 			/>
 			<button

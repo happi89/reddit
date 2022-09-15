@@ -154,7 +154,7 @@ export const postsRouter = createRouter()
 	.mutation('addPost', {
 		input: z.object({
 			title: z.string(),
-			body: z.string(),
+			body: z.string().optional(),
 			userId: z.string(),
 			subRedditName: z.string(),
 		}),
@@ -189,7 +189,7 @@ export const postsRouter = createRouter()
 	.mutation('editPost', {
 		input: z.object({
 			title: z.string(),
-			body: z.string(),
+			body: z.string().optional(),
 			postId: z.number(),
 		}),
 		async resolve({ ctx, input }) {
