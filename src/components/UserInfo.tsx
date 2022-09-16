@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { trpc } from '../utils/trpc';
 
@@ -14,6 +15,7 @@ const UserInfo = ({
 }) => {
 	const [open, setOpen] = useState(false);
 	const [bioText, setBioText] = useState('');
+	const { data: session } = useSession();
 
 	const ctx = trpc.useContext();
 	const addBio = trpc.useMutation('user.addBio', {
@@ -27,14 +29,14 @@ const UserInfo = ({
 			<p>posts: {count?.posts}</p>
 			<p>comments: {count?.comments}</p>
 			<p>subreddits joined: {count?.subRedditsJoined}</p>
-			{bio ? (
-				<p className='mt-2'>Bio: {bio}</p>
-			) : (
+			{bio === '' && session?.user?.name === name ? (
 				<button
 					className='btn btn-primary btn-sm mt-2'
 					onClick={() => setOpen(!open)}>
 					{!open ? 'Add Bio' : 'Cancel'}
 				</button>
+			) : (
+				<p className='mt-2'>{bio !== '' || `Bio: ${bio}`}</p>
 			)}
 			{open ? (
 				<form
