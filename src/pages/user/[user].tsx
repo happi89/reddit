@@ -31,12 +31,16 @@ const UserPage = () => {
 				setTitle={setTitle}
 				tabs={['User Settings', 'Posts', 'Comments', 'Subreddits']}
 			/>
-			<UserInfo
-				count={user?._count}
-				createdAt={user?.createdAt}
-				bio={user?.bio || ''}
-				name={user?.name || ''}
-			/>
+			{title === 'User Settings' ? (
+				<UserInfo
+					count={user?._count}
+					createdAt={user?.createdAt}
+					bio={user?.bio || ''}
+					name={user?.name || ''}
+				/>
+			) : (
+				''
+			)}
 		</div>
 	);
 };

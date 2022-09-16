@@ -43,7 +43,7 @@ const UserInfo = ({
 			) : (
 				''
 			)}
-			{open ? <BioForm bio={bio || ''} /> : ''}
+			{open ? <BioForm bio={bio || ''} setOpen={setOpen} /> : ''}
 		</div>
 	);
 };

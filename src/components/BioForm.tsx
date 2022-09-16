@@ -1,7 +1,13 @@
 import { trpc } from '../utils/trpc';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-const BioForm = ({ bio }: { bio: string }) => {
+const BioForm = ({
+	bio,
+	setOpen,
+}: {
+	bio: string;
+	setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
 	console.log(bio);
 	const [bioText, setBioText] = useState(bio);
 
@@ -18,6 +24,7 @@ const BioForm = ({ bio }: { bio: string }) => {
 				addBio.mutate({
 					bio: bioText,
 				});
+				setOpen(false);
 			}}>
 			<textarea
 				className='textarea textarea-bordered bg-base-200 mt-2 focus:outline-none'

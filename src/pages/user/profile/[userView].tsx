@@ -5,11 +5,15 @@ import { trpc } from '../../../utils/trpc';
 import Image from 'next/image';
 import Loader from '../../../../public/Reload-1s-200px.svg';
 import UserInfo from './../../../components/UserInfo';
+// import { SinglePost } from '../..';
+// import { useSession } from 'next-auth/react';
 
 const ViewUser = () => {
 	const [title, setTitle] = useState('Profile');
 	const router = useRouter();
 	const { userView } = router.query;
+
+	// const { data: session } = useSession();
 
 	const { data: user, isLoading } = trpc.useQuery([
 		'user.getOne',
@@ -35,10 +39,20 @@ const ViewUser = () => {
 					count={user?._count}
 					createdAt={user?.createdAt}
 					name={user?.name || ''}
+					bio={user?.bio || ''}
 				/>
 			) : (
 				''
 			)}
+			{/* {title === 'Posts'
+				? ''
+				: posts.map((post) => (
+						<SinglePost
+							key={post.id}
+							post={post}
+							showDelete={post.user?.id === session?.user?.id}
+						/>
+				  ))} */}
 		</div>
 	);
 };
