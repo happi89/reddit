@@ -34,10 +34,9 @@ export const userRouter = createRouter()
 		}
 		return next();
 	})
-	.mutation('updateUser', {
+	.mutation('addBio', {
 		input: z.object({
-			name: z.string().optional(),
-			bio: z.string().optional(),
+			bio: z.string(),
 		}),
 		async resolve({ ctx, input }) {
 			return await ctx.prisma.user.update({
@@ -45,8 +44,7 @@ export const userRouter = createRouter()
 					id: ctx.session?.user?.id,
 				},
 				data: {
-					name: input?.name,
-					bio: input?.bio,
+					bio: input.bio,
 				},
 			});
 		},

@@ -30,11 +30,12 @@ const ViewUser = () => {
 				setTitle={setTitle}
 				tabs={['Profile', 'Posts', 'Comments', 'Subreddits']}
 			/>
-			<h1 className='text-2xl font-bold my-4'>
-				{userView}&apos;s &nbsp;{title}
-			</h1>
 			{title === 'Profile' ? (
-				<UserInfo count={user?._count} createdAt={user?.createdAt} />
+				<UserInfo
+					count={user?._count}
+					createdAt={user?.createdAt}
+					name={user?.name || ''}
+				/>
 			) : (
 				''
 			)}

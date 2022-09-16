@@ -16,8 +16,7 @@ export function Votes({
 	const ctx = trpc.useContext();
 	const voteComment = trpc.useMutation('vote.commentVote', {
 		onSuccess: () => {
-			ctx.invalidateQueries(['post.getOne']);
-			ctx.invalidateQueries(['post.getAll']);
+			ctx.invalidateQueries(['comment.getAll']);
 		},
 	});
 
