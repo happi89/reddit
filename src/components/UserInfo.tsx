@@ -1,6 +1,6 @@
+import BioForm from './BioForm';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { trpc } from '../utils/trpc';
 
 const UserInfo = ({
 	count,
@@ -14,13 +14,9 @@ const UserInfo = ({
 	name: string;
 }) => {
 	const [open, setOpen] = useState(false);
-	const [bioText, setBioText] = useState('');
 	const { data: session } = useSession();
 
-	const ctx = trpc.useContext();
-	const addBio = trpc.useMutation('user.addBio', {
-		onSuccess: () => ctx.cancelQuery(['user.getOne']),
-	});
+	console.log(bio);
 
 	return (
 		<div className='mt-4 bg-base-200 w-fit max-w-lg p-4 rounded-md'>
@@ -35,29 +31,19 @@ const UserInfo = ({
 					onClick={() => setOpen(!open)}>
 					{!open ? 'Add Bio' : 'Cancel'}
 				</button>
-			) : (
-				<p className='mt-2'>{bio !== '' || `Bio: ${bio}`}</p>
-			)}
-			{open ? (
-				<form
-					className='flex flex-col max-w-fit'
-					onSubmit={(event) => {
-						event.preventDefault();
-						addBio.mutate({ bio: bioText });
-					}}>
-					<textarea
-						className='textarea textarea-bordered bg-base-200 mt-2 focus:outline-none'
-						placeholder='Bio...'
-						value={bioText}
-						onChange={({ target }) => setBioText(target.value)}
-					/>
-					<button type='submit' className='btn mt-2 btn-primary'>
-						Add
+			) : bio && session?.user?.name === name ? (
+				<>
+					<p className='mt-2'>Bio: {bio}</p>
+					<button
+						className='btn btn-primary btn-sm mt-2'
+						onClick={() => setOpen(!open)}>
+						{!open ? 'Edit Bio' : 'Cancel'}
 					</button>
-				</form>
+				</>
 			) : (
 				''
 			)}
+			{open ? <BioForm bio={bio || ''} /> : ''}
 		</div>
 	);
 };

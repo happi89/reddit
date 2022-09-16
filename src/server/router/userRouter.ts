@@ -39,11 +39,14 @@ export const userRouter = createRouter()
 			bio: z.string(),
 		}),
 		async resolve({ ctx, input }) {
-			return await ctx.prisma.user.update({
+			return await ctx.prisma.user.upsert({
 				where: {
 					id: ctx.session?.user?.id,
 				},
-				data: {
+				create: {
+					bio: input.bio,
+				},
+				update: {
 					bio: input.bio,
 				},
 			});
