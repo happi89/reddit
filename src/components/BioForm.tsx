@@ -8,12 +8,11 @@ const BioForm = ({
 	bio: string;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-	console.log(bio);
 	const [bioText, setBioText] = useState(bio);
 
 	const ctx = trpc.useContext();
 	const addBio = trpc.useMutation('user.addBio', {
-		onSuccess: () => ctx.cancelQuery(['user.getOne']),
+		onSuccess: () => ctx.invalidateQueries(['user.getOne']),
 	});
 
 	return (

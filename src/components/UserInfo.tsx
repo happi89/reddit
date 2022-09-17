@@ -16,8 +16,6 @@ const UserInfo = ({
 	const [open, setOpen] = useState(false);
 	const { data: session } = useSession();
 
-	console.log(bio);
-
 	return (
 		<div className='mt-4 bg-base-200 w-fit max-w-lg p-4 rounded-md'>
 			<p className='text-lg mb-2'>u/{name}</p>
