@@ -16,7 +16,7 @@ const Submit = () => {
 	if (isLoading) return <>Loading...</>;
 
 	return (
-		<>
+		<div className='container mx-auto px-4 w-[52rem]'>
 			<Link href='/'>
 				<button className='btn btn-primary ml-12 mt-6 mb-2'>Back</button>
 			</Link>
@@ -28,7 +28,7 @@ const Submit = () => {
 					<div>404 not found. This Post does not Exist</div>
 				)}
 			</div>
-		</>
+		</div>
 	);
 };
 

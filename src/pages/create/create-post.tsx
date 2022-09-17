@@ -8,7 +8,7 @@ const CreatePost = () => {
 	if (status === 'loading') return <>Loading...</>;
 
 	return (
-		<div className='container mx-auto px-4 w-[36rem]'>
+		<div className='container mx-auto px-4 w-[52rem]'>
 			<Link href='/'>
 				<button className='btn btn-primary mt-6 mb-2'>Back</button>
 			</Link>
