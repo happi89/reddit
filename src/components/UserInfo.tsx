@@ -1,6 +1,7 @@
 import BioForm from './BioForm';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { PencilSquareIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 const UserInfo = ({
 	count,
@@ -17,25 +18,39 @@ const UserInfo = ({
 	const { data: session } = useSession();
 
 	return (
-		<div className='mt-4 bg-base-200 w-fit max-w-lg p-4 rounded-md'>
-			<p className='text-lg mb-2'>u/{name}</p>
+		<div className='container mx-auto mt-4 bg-base-200 p-8 rounded-md'>
+			<p className='text-2xl font-bold mb-2'>u/{name}</p>
 			<p>Joined {String(createdAt).slice(0, 15) || 'unknown'}</p>
 			<p>posts: {count?.posts}</p>
 			<p>comments: {count?.comments}</p>
 			<p>subreddits joined: {count?.subRedditsJoined}</p>
 			{bio === '' && session?.user?.name === name ? (
 				<button
-					className='btn btn-primary btn-sm mt-2'
+					className='btn btn-ghost btn-sm hover:bg-base-200 ml-[-1rem]'
 					onClick={() => setOpen(!open)}>
-					{!open ? 'Add Bio' : 'Cancel'}
+					{open ? (
+						<>
+							Bio{' '}
+							<PlusIcon className='text-primary h-6 w-6 hover:text-gray ml-2' />
+						</>
+					) : (
+						<>
+							Bio{' '}
+							<PlusIcon className='text-gray h-6 w-6 hover:text-primary ml-2' />
+						</>
+					)}
 				</button>
 			) : bio && session?.user?.name === name ? (
 				<>
-					<p className='mt-2'>Bio: {bio}</p>
+					<p className='mt-4'>Bio: {bio}</p>
 					<button
-						className='btn btn-primary btn-sm mt-2'
+						className='btn btn-ghost btn-sm hover:bg-base-200 ml-[-1rem]'
 						onClick={() => setOpen(!open)}>
-						{!open ? 'Edit Bio' : 'Cancel'}
+						{open ? (
+							<PencilSquareIcon className='text-primary h-6 w-6 hover:text-gray' />
+						) : (
+							<PencilSquareIcon className='text-gray h-6 w-6 hover:text-primary' />
+						)}
 					</button>
 				</>
 			) : (

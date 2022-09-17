@@ -8,6 +8,10 @@ import { Votes } from './Votes';
 import { Comment as CommentT } from '@prisma/client';
 import Image from 'next/image';
 import Loader from '../../public/Reload-1s-200px.svg';
+import {
+	PencilSquareIcon,
+	ChatBubbleOvalLeftEllipsisIcon,
+} from '@heroicons/react/24/outline';
 
 interface CommentType extends CommentT {
 	user: {
@@ -44,14 +48,24 @@ const Reply = ({
 				<div>
 					{session?.user?.id === comment?.user?.id && (
 						<button
-							className='btn btn-primary btn-sm mr-3'
+							className='btn btn-ghost btn-sm hover:bg-base-200'
 							onClick={toggleEdit}>
-							{editing ? 'Cancel' : 'Edit'}
+							{editing ? (
+								<PencilSquareIcon className='text-primary h-6 w-6 hover:text-gray' />
+							) : (
+								<PencilSquareIcon className='text-gray h-6 w-6 hover:text-primary' />
+							)}
 						</button>
 					)}
 					{session?.user && (
-						<button className='btn btn-primary btn-sm' onClick={toggleForm}>
-							{replying ? 'Cancel' : 'Reply'}
+						<button
+							className='btn btn-ghost btn-sm hover:bg-base-200'
+							onClick={toggleForm}>
+							{replying ? (
+								<ChatBubbleOvalLeftEllipsisIcon className='text-primary h-6 w-6 hover:text-gray' />
+							) : (
+								<ChatBubbleOvalLeftEllipsisIcon className='text-gray h-6 w-6 hover:text-primary' />
+							)}
 						</button>
 					)}
 				</div>

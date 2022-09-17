@@ -10,6 +10,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Loader from '../../public/Reload-1s-200px.svg';
 import { Post, Vote } from '@prisma/client';
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 const Home: NextPage = () => {
 	return (
@@ -116,14 +117,14 @@ export const SinglePost = ({
 				<div className='w-full flex gap-4 mt-3 items-center min-w-full justify-between'>
 					<p className='text-gray'>{post._count.comments} comments</p>
 					{showDelete ? (
-						<div>
+						<div className='btn-group'>
 							<button
-								className='btn btn-ghost btn-sm mr-3'
+								className='btn btn-ghost btn-sm hover:bg-base-200'
 								onClick={() => router.push(`/edit/${post.id}`)}>
-								Edit
+								<PencilSquareIcon className='text-gray h-6 w-6 hover:text-primary' />
 							</button>
 							<button
-								className='btn btn-primary btn-sm'
+								className='btn btn-ghost btn-sm hover:bg-base-200'
 								type='button'
 								onClick={() => {
 									if (window.confirm(`Do you want to delete ${post.title}`)) {
@@ -133,7 +134,7 @@ export const SinglePost = ({
 										router.push('/');
 									}
 								}}>
-								Delete
+								<TrashIcon className='text-gray h-6 w-6 hover:text-primary' />
 							</button>
 						</div>
 					) : null}

@@ -46,7 +46,7 @@ const CommentForm = ({
 				}}>
 				<input
 					type='text'
-					placeholder='Comment...'
+					placeholder='Your Thoughts...'
 					className='input input-borderd bg-base-300 w-full text-lg focus:outline-none'
 					value={comment}
 					onChange={({ target }) => setComment(target.value)}

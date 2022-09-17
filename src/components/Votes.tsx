@@ -1,8 +1,6 @@
-import Image from 'next/image';
-import upVoteImage from '../../public/up-arrow.png';
-import downVoteImage from '../../public/download.png';
 import { trpc } from '../utils/trpc';
 import { Vote } from '@prisma/client';
+import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/24/outline';
 
 export function Votes({
 	votes,
@@ -35,7 +33,7 @@ export function Votes({
 	return (
 		<div className='mr-4 flex flex-col items-center bg-base-300 py-4 px-3'>
 			<button
-				className='btn btn-square btn-ghost btn-sm hover:bg-primary'
+				className='btn btn-square btn-ghost btn-sm hover:bg-base-300'
 				onClick={() => {
 					postId
 						? votePost.mutate({
@@ -49,11 +47,12 @@ export function Votes({
 						  })
 						: null;
 				}}>
-				<Image src={upVoteImage} alt='arrow up' height={25} width={25} />
+				{/* <Image src={upVoteImage} alt='arrow up' height={25} width={25} /> */}
+				<ArrowUpIcon className='h-6 w-6 text-gray hover:text-primary' />
 			</button>
 			<div>{totalVotes}</div>
 			<button
-				className='btn btn-square btn-ghost btn-sm hover:bg-primary'
+				className='btn btn-square btn-ghost btn-sm hover:bg-base-300'
 				onClick={() => {
 					postId
 						? votePost.mutate({
@@ -67,7 +66,7 @@ export function Votes({
 						  })
 						: null;
 				}}>
-				<Image src={downVoteImage} alt='arrow up' height={25} width={25} />
+				<ArrowDownIcon className='h-6 w-6 text-gray hover:text-primary' />
 			</button>
 		</div>
 	);
