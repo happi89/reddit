@@ -37,6 +37,7 @@ export const userRouter = createRouter()
 	.mutation('addBio', {
 		input: z.object({
 			bio: z.string(),
+			name: z.string(),
 		}),
 		async resolve({ ctx, input }) {
 			return await ctx.prisma.user.upsert({
@@ -45,9 +46,11 @@ export const userRouter = createRouter()
 				},
 				create: {
 					bio: input.bio,
+					name: input.name,
 				},
 				update: {
 					bio: input.bio,
+					name: input.name,
 				},
 			});
 		},

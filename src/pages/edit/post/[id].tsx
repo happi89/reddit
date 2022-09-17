@@ -1,6 +1,6 @@
-import EditPost from '../../components/EditPost';
+import EditPost from '../../../components/EditPost';
 import { useRouter } from 'next/router';
-import { trpc } from '../../utils/trpc';
+import { trpc } from '../../../utils/trpc';
 import Link from 'next/link';
 
 const Submit = () => {

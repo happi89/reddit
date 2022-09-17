@@ -120,7 +120,7 @@ export const SinglePost = ({
 						<div className='btn-group'>
 							<button
 								className='btn btn-ghost btn-sm hover:bg-base-200'
-								onClick={() => router.push(`/edit/${post.id}`)}>
+								onClick={() => router.push(`/edit/post/${post.id}`)}>
 								<PencilSquareIcon className='text-gray h-6 w-6 hover:text-primary' />
 							</button>
 							<button

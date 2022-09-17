@@ -1,7 +1,6 @@
-import BioForm from './BioForm';
+import UserForm from './UserForm';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
-import { PencilSquareIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 const UserInfo = ({
 	count,
@@ -14,7 +13,6 @@ const UserInfo = ({
 	bio?: string;
 	name: string;
 }) => {
-	const [open, setOpen] = useState(false);
 	const { data: session } = useSession();
 
 	return (
@@ -24,39 +22,28 @@ const UserInfo = ({
 			<p>posts: {count?.posts}</p>
 			<p>comments: {count?.comments}</p>
 			<p>subreddits joined: {count?.subRedditsJoined}</p>
-			{bio === '' && session?.user?.name === name ? (
-				<button
-					className='btn btn-ghost btn-sm hover:bg-base-200 ml-[-1rem]'
-					onClick={() => setOpen(!open)}>
-					{open ? (
-						<>
-							Bio{' '}
-							<PlusIcon className='text-primary h-6 w-6 hover:text-gray ml-2' />
-						</>
-					) : (
-						<>
-							Bio{' '}
-							<PlusIcon className='text-gray h-6 w-6 hover:text-primary ml-2' />
-						</>
-					)}
-				</button>
-			) : bio && session?.user?.name === name ? (
+			<p className='mt-4'>Bio: {bio}</p>
+			{session?.user?.name === name ? (
 				<>
-					<p className='mt-4'>Bio: {bio}</p>
-					<button
-						className='btn btn-ghost btn-sm hover:bg-base-200 ml-[-1rem]'
-						onClick={() => setOpen(!open)}>
-						{open ? (
-							<PencilSquareIcon className='text-primary h-6 w-6 hover:text-gray' />
-						) : (
-							<PencilSquareIcon className='text-gray h-6 w-6 hover:text-primary' />
-						)}
-					</button>
+					<label
+						htmlFor='my-modal-4'
+						className='btn btn-modal btn-ghost btn-sm hover:bg-base-200 ml-[-1rem]'>
+						<PencilSquareIcon className='text-gray h-6 w-6 hover:text-primary' />
+					</label>
+
+					<input type='checkbox' id='my-modal-4' className='modal-toggle' />
+					<label htmlFor='my-modal-4' className='modal cursor-pointer'>
+						<label className='modal-box relative' htmlFor=''>
+							<div className='flex flex-col items-center'>
+								<h3 className='text-lg font-bold'>Edit User</h3>
+								<UserForm name={name} bio={bio || ''} />
+							</div>
+						</label>
+					</label>
 				</>
 			) : (
 				''
 			)}
-			{open ? <BioForm bio={bio || ''} setOpen={setOpen} /> : ''}
 		</div>
 	);
 };

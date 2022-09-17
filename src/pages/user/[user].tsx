@@ -24,6 +24,8 @@ const UserPage = () => {
 			</div>
 		);
 
+	if (!user) return <div>user not found</div>;
+
 	return (
 		<div className='container mx-auto'>
 			<UserNavbar
