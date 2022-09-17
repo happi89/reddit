@@ -15,6 +15,7 @@ export const subRedditRouter = createRouter()
 					},
 					include: {
 						posts: true,
+						users: { select: { id: true } },
 						_count: {
 							select: {
 								users: true,
@@ -64,6 +65,37 @@ export const subRedditRouter = createRouter()
 						description: input.description,
 						admin: { connect: { id: input.adminId } },
 						users: { connect: { id: input.adminId } },
+					},
+				});
+			} catch (err) {
+				console.log('error', err);
+				throw new TRPCError({ code: 'BAD_REQUEST' });
+			}
+		},
+	})
+	.mutation('joinSubreddit', {
+		input: z.object({
+			subredditId: z.number(),
+			joined: z.boolean(),
+		}),
+		async resolve({ ctx, input }) {
+			try {
+				if (input.joined) {
+					return await ctx.prisma.subReddit.update({
+						where: {
+							id: input.subredditId,
+						},
+						data: {
+							users: { disconnect: { id: ctx?.session?.user?.id } },
+						},
+					});
+				}
+				return await ctx.prisma.subReddit.update({
+					where: {
+						id: input.subredditId,
+					},
+					data: {
+						users: { connect: { id: ctx?.session?.user?.id } },
 					},
 				});
 			} catch (err) {
