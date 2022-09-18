@@ -17,12 +17,30 @@ const UserInfo = ({
 
 	return (
 		<div className='container mx-auto mt-4 bg-base-200 p-8 rounded-md'>
-			<p className='text-2xl font-bold mb-2'>u/{name}</p>
-			<p>Joined {String(createdAt).slice(0, 15) || 'unknown'}</p>
-			<p>posts: {count?.posts}</p>
-			<p>comments: {count?.comments}</p>
-			<p>subreddits joined: {count?.subRedditsJoined}</p>
-			<p className='mt-4'>Bio: {bio}</p>
+			<p className='text-4xl font-bold mb-4'>u/{name}</p>
+			<div className='stats stats-vertical shadow'>
+				<div className='stat'>
+					<div className='stat-title'>Joined</div>
+					<div className='stat-value'>
+						{String(createdAt).slice(0, 15) || 'unknown'}
+					</div>
+				</div>
+
+				<div className='stat'>
+					<div className='stat-title'>Posts</div>
+					<div className='stat-value'>{count?.posts}</div>
+				</div>
+
+				<div className='stat'>
+					<div className='stat-title'>Comments</div>
+					<div className='stat-value'>{count?.comments}</div>
+				</div>
+				<div className='stat'>
+					<div className='stat-title'>subreddits joined</div>
+					<div className='stat-value'>{count?.subRedditsJoined}</div>
+				</div>
+			</div>
+			<p className='mt-4 text-lg'>Bio: {bio}</p>
 			{session?.user?.name === name ? (
 				<>
 					<label

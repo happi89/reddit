@@ -26,6 +26,28 @@ const UserPage = () => {
 
 	if (!user) return <div>user not found</div>;
 
+	const showInfo = (title: string) => {
+		switch (title) {
+			case 'User Settings':
+				return (
+					<UserInfo
+						count={user?._count}
+						createdAt={user?.createdAt}
+						bio={user?.bio || ''}
+						name={user?.name || ''}
+					/>
+				);
+			case 'Posts':
+				return 'posts';
+			case 'Comments':
+				return 'comments';
+			case 'Subreddits':
+				return 'subreddits';
+			default:
+				return '';
+		}
+	};
+
 	return (
 		<div className='container mx-auto'>
 			<UserNavbar
@@ -33,16 +55,7 @@ const UserPage = () => {
 				setTitle={setTitle}
 				tabs={['User Settings', 'Posts', 'Comments', 'Subreddits']}
 			/>
-			{title === 'User Settings' ? (
-				<UserInfo
-					count={user?._count}
-					createdAt={user?.createdAt}
-					bio={user?.bio || ''}
-					name={user?.name || ''}
-				/>
-			) : (
-				''
-			)}
+			{showInfo(title)}
 		</div>
 	);
 };

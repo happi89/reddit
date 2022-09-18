@@ -21,6 +21,20 @@ const MyApp: AppType = ({
 			</Head>
 			<Navbar />
 			<Component {...pageProps} />
+			<footer className='footer footer-center p-4 bg-base-100 text-base-content absolute bottom-0'>
+				<div>
+					<p>
+						Made By Happi89. Source on{' '}
+						<a
+							className='link'
+							href='https://github.com/happi89/reddit'
+							target='_blank'
+							rel='noreferrer'>
+							Github
+						</a>
+					</p>
+				</div>
+			</footer>
 		</SessionProvider>
 	);
 };
