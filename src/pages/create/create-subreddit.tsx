@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const CreateSubreddit = () => {
 	return (
-		<div className='container mx-auto px-4 w-[52rem]'>
+		<div className='container mx-auto px-4 max-w-[52rem]'>
 			<Link href='/create/create-post'>
 				<button className='btn btn-primary mt-6 mb-2'>Back</button>
 			</Link>

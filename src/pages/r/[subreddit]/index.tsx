@@ -37,13 +37,13 @@ const SubRedditPage = () => {
 		);
 
 	return (
-		<div className='container mx-auto mt-8'>
-			<div className='navbar mb-8'>
-				<div className='flex flex-col items-start w-[89%]'>
-					<div className='w-[64rem] mb-2 flex'>
+		<div className='container mx-auto mt-8 px-2'>
+			<div className='mb-8'>
+				<div className='flex flex-col max-2-screen'>
+					<div className='max-w-[64rem] mb-2 flex justify-between'>
 						<h1 className='text-3xl font-bold mb-1'>r/{data?.name}</h1>
 						<button
-							className='btn btn-primary btn-sm ml-auto'
+							className='btn btn-primary btn-sm'
 							onClick={() =>
 								joinSub.mutate({
 									subredditId: Number(data?.id),

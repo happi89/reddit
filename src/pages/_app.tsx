@@ -21,7 +21,7 @@ const MyApp: AppType = ({
 			</Head>
 			<Navbar />
 			<Component {...pageProps} />
-			<footer className='footer footer-center p-4 bg-base-100 text-base-content absolute bottom-0'>
+			<footer className='footer footer-center p-4 bg-base-100 text-base-content relative bottom-[-1rem]'>
 				<div>
 					<p>
 						Made By Happi89. Source on{' '}

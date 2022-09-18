@@ -47,7 +47,7 @@ const Posts = () => {
 		);
 
 	return (
-		<div className='max-w-[72rem]'>
+		<div className='max-w-[72rem] px-2'>
 			<FilterPosts setFilter={setFilter} />
 			{posts?.map((p, i: number) => {
 				return (
