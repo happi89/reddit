@@ -3,13 +3,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import LoginModal from './LoginModal';
+import SelectFilter from './SelectFilter';
+import { useState } from 'react';
+import { trpc } from '../utils/trpc';
 
 const Navbar = () => {
-	const { data: session, status } = useSession();
+	const [subReddit, setSubReddit] = useState({
+		name: '',
+		id: 0,
+	});
+	const { data: session } = useSession();
 
 	const router = useRouter();
+	const { data: subreddits, isLoading } = trpc.useQuery(['subreddit.getAll']);
 
-	if (status === 'loading') return <div>Loading...</div>;
+	if (isLoading) return <div>Loading...</div>;
 
 	return (
 		<nav className='navbar w-full bg-base-200 border-b-[1px] border-gray border-w p-4 mb-2'>
@@ -20,7 +28,16 @@ const Navbar = () => {
 							Reddit
 						</h1>
 					</Link>
-					<div className='flex-none flex items-center justify-center gap-2'>
+					<div className='flex items-center gap-3'>
+						<label className='label'>
+							<span className='label-text'>Search Subreddits</span>
+						</label>
+						<SelectFilter
+							subreddits={subreddits ? subreddits : []}
+							subReddit={subReddit}
+							setSubReddit={setSubReddit}
+							show={false}
+						/>
 						<Link href='/create/create-post'>
 							<button className='btn btn-ghost'>Create Post</button>
 						</Link>

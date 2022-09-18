@@ -12,10 +12,12 @@ export default function SelectFilter({
 	subreddits,
 	subReddit,
 	setSubReddit,
+	show,
 }: {
 	subreddits: SubredditType[];
 	subReddit: { name: string; id: number };
 	setSubReddit: Dispatch<SetStateAction<SubredditType>>;
+	show: boolean;
 }) {
 	const [query, setQuery] = useState('');
 
@@ -30,9 +32,9 @@ export default function SelectFilter({
 			  );
 
 	return (
-		<div className='mb-10'>
+		<div>
 			<Combobox value={subReddit} onChange={setSubReddit}>
-				<div className='relative mt-1'>
+				<div className='relative'>
 					<div className='relative w-full cursor-default overflow-hidden rounded-lg bg-base-300 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm'>
 						<Combobox.Input
 							className='w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-white focus:ring-0 bg-base-300'
@@ -92,11 +94,13 @@ export default function SelectFilter({
 					</Transition>
 				</div>
 			</Combobox>
-			<Link href='/create/create-subreddit'>
-				<p className='text-end mt-1 mr-1 text-sm text-gray link'>
-					Create Subreddit
-				</p>
-			</Link>
+			{show && (
+				<Link href='/create/create-subreddit'>
+					<p className='text-end mt-1 mr-1 text-sm text-gray link'>
+						Create Subreddit
+					</p>
+				</Link>
+			)}
 		</div>
 	);
 }

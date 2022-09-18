@@ -62,11 +62,12 @@ export const PostForm = ({ id }: { id: string }) => {
 				subreddits={subreddits ? subreddits : []}
 				subReddit={subReddit}
 				setSubReddit={setSubReddit}
+				show={true}
 			/>
 			<input
 				type='text'
 				placeholder='Title'
-				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none mb-4 shadow-md'
+				className='input input-borderd bg-base-300 w-full text-lg focus:outline-none mb-4 shadow-md mt-8'
 				value={title}
 				onChange={({ target }) => setTitle(target.value)}
 			/>
