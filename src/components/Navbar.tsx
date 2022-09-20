@@ -3,15 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import LoginModal from './LoginModal';
-import SelectFilter from './SelectFilter';
 import { useState } from 'react';
 import { trpc } from '../utils/trpc';
 
 const Navbar = () => {
-	const [subReddit, setSubReddit] = useState({
-		name: '',
-		id: 0,
-	});
+	const [search, setSearch] = useState('');
 	const { data: session } = useSession();
 
 	const router = useRouter();
@@ -29,15 +25,6 @@ const Navbar = () => {
 						</h1>
 					</Link>
 					<div className='flex items-center gap-3'>
-						<label className='label'>
-							<span className='label-text'>Search Subreddits</span>
-						</label>
-						<SelectFilter
-							subreddits={subreddits ? subreddits : []}
-							subReddit={subReddit}
-							setSubReddit={setSubReddit}
-							show={false}
-						/>
 						<Link href='/create/create-post'>
 							<button className='btn btn-ghost'>Create Post</button>
 						</Link>
