@@ -3,18 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import LoginModal from './LoginModal';
-import { useState } from 'react';
-import { trpc } from '../utils/trpc';
 
 const Navbar = () => {
-	const [search, setSearch] = useState('');
 	const { data: session } = useSession();
 
 	const router = useRouter();
-	const { data: subreddits, isLoading } = trpc.useQuery(['subreddit.getAll']);
-
-	if (isLoading) return <div>Loading...</div>;
-
 	return (
 		<nav className='navbar w-full bg-base-200 border-b-[1px] border-gray border-w p-4 mb-2'>
 			{session ? (
