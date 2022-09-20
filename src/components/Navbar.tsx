@@ -8,6 +8,7 @@ const Navbar = () => {
 	const { data: session } = useSession();
 
 	const router = useRouter();
+
 	return (
 		<nav className='navbar w-full bg-base-200 border-b-[1px] border-gray border-w p-4 mb-2'>
 			{session ? (
